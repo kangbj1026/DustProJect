@@ -1,0 +1,2 @@
+rootProject.name='DustProJect'
+include ':app'
