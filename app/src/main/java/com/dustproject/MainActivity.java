@@ -30,7 +30,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private static String IP_ADDRESS = "192.168.0.3"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
+    // 사설ip가 아닌 공인ip
+    private static String IP_ADDRESS = "118.219.45.172:81"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
     private static String TAG = "PHP";
 
     private RecyclerView dRecyclerView;
