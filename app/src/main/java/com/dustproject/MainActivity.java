@@ -1,12 +1,13 @@
 package com.dustproject;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -30,8 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    // 사설ip가 아닌 공인ip
-    private static String IP_ADDRESS = "118.219.45.172:81"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
+    private static String IP_ADDRESS = "211.206.115.62:81"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
     private static String TAG = "PHP";
 
     private RecyclerView dRecyclerView;
@@ -47,12 +48,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView mainFigure;
     private ConstraintLayout mainImage;
     private TextView colorText;
+    private SwipeRefreshLayout swipeLayout;
+    final Handler mHandler = new Handler();
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // note view 보여주기 위한 코드
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         dRecyclerView = findViewById(R.id.listView_main_list);
         dustRecyclerView = findViewById(R.id.dustView);
         mainImage = findViewById(R.id.mainImage);
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         imageColor = findViewById(R.id.imageColor);
         imageChar = findViewById(R.id.imageChar);
         colorText = findViewById(R.id.colorText);
+        swipeLayout = findViewById(R.id.swipeLayout);
         // note LayoutManager() 함수로 생성자 추가
         dRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         dustRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -73,20 +79,43 @@ public class MainActivity extends AppCompatActivity {
         // note dRecyclerView dAdapter 변수 불러오는 코드
         dRecyclerView.setAdapter(dAdapter);
         dustRecyclerView.setAdapter(dustAdapter);
-        GetData task = new GetData();
-        task.execute("http://"+ IP_ADDRESS + "/GetJSON.php","");
+        GetData data = new GetData();
+        data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
 
-        Button button_all = (Button)findViewById(R.id.button_main_all);
-        button_all.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                dArrayList.clear();
-                dAdapter.notifyDataSetChanged();
-                dustArrayList.clear();
-                dustAdapter.notifyDataSetChanged();
-                GetData task = new GetData();
-                task.execute("http://"+ IP_ADDRESS + "/GetJSON.php","");
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeLayout.setRefreshing(false);
+                dArrayList.clear(); // dAdapter.notifyDataSetChanged();
+                dustArrayList.clear(); // dustAdapter.notifyDataSetChanged();
+                GetData data = new GetData();
+                data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
             }
         });
+        mHandler.postDelayed(new Runnable()  {
+            public void run() {
+                if(true){
+                    mHandler.postDelayed(this,15000);
+                    dArrayList.clear(); // dAdapter.notifyDataSetChanged();
+                    dustArrayList.clear(); // dustAdapter.notifyDataSetChanged();
+                    GetData data = new GetData();
+                    data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
+                }
+            }
+        },100);
+/*        Button button_all = (Button)findViewById(R.id.button_main_all);
+        button_all.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                dArrayList.clear(); // dAdapter.notifyDataSetChanged();
+                dustArrayList.clear(); // dustAdapter.notifyDataSetChanged();
+                GetData data = new GetData();
+                data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
+            }
+        });*/
+    }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
     private class GetData extends AsyncTask<String,Void,String>{
         ProgressDialog progressDialog;
@@ -94,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-
             progressDialog = ProgressDialog.show(MainActivity.this,
                     "Please Wait",null,true,true);
         }
@@ -106,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, " 백그라운드 작업이 완료 된 후 결과값을 얻었어요. - " + result);
 
             if(result == null){
-                Log.d(TAG, "히히");
+                Log.d(TAG, "");
             } else {
                 dJsonString = result;
                 showResult();
@@ -164,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
                 // note 5. 저장된 데이터를 스트링으로 변환하여 리턴합니다.
                 return sb.toString().trim();
             } catch (Exception e) {
-
                 Log.d(TAG, "GetData : Error ", e);
                 errorString = e.toString();
                 return null;

@@ -14,6 +14,7 @@ public class DustActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
         /* android app 을 띄우는 공간인 Window 의 속성을 변경하여 작업표시줄 등 시스템 UI를
         숨기고 전체화면으로 표시하는 코드*/
         // 일반 몰입 모드 활성화
@@ -25,10 +26,13 @@ public class DustActivity extends AppCompatActivity {
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY |
                         View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
                         View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
     }
+
     @Override
     protected void onResume() {
         super.onResume();
+
         // Runnable 실행되면 ListActivity::class.java 로 이동
         runnable = new Runnable() {
             @Override
