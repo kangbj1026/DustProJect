@@ -66,6 +66,6 @@ public class DustData {
     public void setPm1(String pm1) {
         this.pm1 = pm1;
     }
-    public int getDustitem() { return dustitem; }
-    public void setDustitem(int dustitem ) {this.dustitem = dustitem; }
+    public int getDustItem() { return dustitem; }
+    public void setDustItem(int dustitem ) {this.dustitem = dustitem; }
 }

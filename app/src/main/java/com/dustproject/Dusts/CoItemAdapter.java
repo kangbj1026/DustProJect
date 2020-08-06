@@ -1,4 +1,4 @@
-package com.dustproject;
+package com.dustproject.Dusts;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,35 +8,38 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dustproject.DustData;
+import com.dustproject.R;
+
 import java.util.ArrayList;
 
-public class DustItemAdapter extends RecyclerView.Adapter<DustItemAdapter.CustomViewHolder> {
-    private ArrayList<DustData> dustList = null;
+public class CoItemAdapter extends RecyclerView.Adapter<CoItemAdapter.CustomViewHolder> {
+    private ArrayList<DustData> coList = null;
     private Activity context = null;
-    public DustItemAdapter(Activity context, ArrayList<DustData> list) {
+    public CoItemAdapter(Activity context, ArrayList<DustData> list) {
         this.context = context;
-        this.dustList = list;
+        this.coList = list;
     }
     public class CustomViewHolder extends RecyclerView.ViewHolder {
-        protected TextView dust;
+        protected TextView co;
 
         public CustomViewHolder(View view) {
             super(view);
-            this.dust = (TextView) view.findViewById(R.id.dust);
+            this.co = (TextView) view.findViewById(R.id.co);
         }
     }
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_dust, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_co, null);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
         return viewHolder;
     }
     @Override
     public void onBindViewHolder(CustomViewHolder viewHolder, int position) {
-        viewHolder.dust.setText(String.valueOf(dustList.get(position).getDustitem()));
+        viewHolder.co.setText(String.valueOf(coList.get(position).getCo()));
     }
     @Override
     public int getItemCount() {
-        return (null != dustList ? dustList.size() : 0);
+        return (null != coList ? coList.size() : 0);
     }
 }

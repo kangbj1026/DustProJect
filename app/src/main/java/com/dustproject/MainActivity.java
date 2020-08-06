@@ -18,6 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
+import com.dustproject.Dusts.Ch2oItemAdapter;
+import com.dustproject.Dusts.Co2ItemAdapter;
+import com.dustproject.Dusts.CoItemAdapter;
+import com.dustproject.Dusts.DustAdapter;
+import com.dustproject.Dusts.DustItemAdapter;
+import com.dustproject.Dusts.DustMinItemAdapter;
+import com.dustproject.Dusts.DustsAdapter;
+import com.dustproject.Dusts.HumiItemAdapter;
+import com.dustproject.Dusts.Pm1ItemAdapter;
+import com.dustproject.Dusts.TempItemAdapter;
+import com.dustproject.Dusts.TvocItemAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,11 +47,38 @@ public class MainActivity extends AppCompatActivity {
     private static String TAG = "PHP";
 
     private RecyclerView dRecyclerView;
-    private RecyclerView dustRecyclerView;
+    private RecyclerView humiRV;
+    private RecyclerView tempRV;
+    private RecyclerView tvocRV;
+    private RecyclerView dustRV;
+    private RecyclerView dustminRV;
+    private RecyclerView pm1RV;
+    private RecyclerView coRV;
+    private RecyclerView ch2oRV;
+    private RecyclerView co2RV;
+    private RecyclerView dustItemRV;
     private ArrayList<DustData> dArrayList;
+    private ArrayList<DustData> humiArrayList;
+    private ArrayList<DustData> tempArrayList;
+    private ArrayList<DustData> tvocArrayList;
     private ArrayList<DustData> dustArrayList;
+    private ArrayList<DustData> dustminArrayList;
+    private ArrayList<DustData> pm1ArrayList;
+    private ArrayList<DustData> coArrayList;
+    private ArrayList<DustData> ch2oArrayList;
+    private ArrayList<DustData> co2ArrayList;
+    private ArrayList<DustData> dustItemArrayList;
     private DustsAdapter dAdapter;
-    private DustItemAdapter dustAdapter;
+    private HumiItemAdapter humiAdapter;
+    private TempItemAdapter tempAdapter;
+    private TvocItemAdapter tvocAdapter;
+    private DustAdapter dustAdapter;
+    private DustMinItemAdapter dustminAdapter;
+    private Pm1ItemAdapter pm1Adapter;
+    private CoItemAdapter coAdapter;
+    private Ch2oItemAdapter ch2oAdapter;
+    private Co2ItemAdapter co2Adapter;
+    private DustItemAdapter dustItemAdapter;
     private String dJsonString;
     private ImageView charView;
     private ImageView imageColor;
@@ -50,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView colorText;
     private SwipeRefreshLayout swipeLayout;
     final Handler mHandler = new Handler();
-
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +96,16 @@ public class MainActivity extends AppCompatActivity {
         // note view 보여주기 위한 코드
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         dRecyclerView = findViewById(R.id.listView_main_list);
-        dustRecyclerView = findViewById(R.id.dustView);
+        humiRV = findViewById(R.id.humi);
+        tempRV = findViewById(R.id.temp);
+        tvocRV = findViewById(R.id.tvoc);
+        dustRV = findViewById(R.id.dust);
+        dustminRV = findViewById(R.id.dustmin);
+        pm1RV = findViewById(R.id.pm1);
+        coRV = findViewById(R.id.co);
+        ch2oRV = findViewById(R.id.ch2o);
+        co2RV = findViewById(R.id.co2);
+        dustItemRV = findViewById(R.id.dustView);
         mainImage = findViewById(R.id.mainImage);
         charView = findViewById(R.id.charView);
         mainFigure = findViewById(R.id.mainFigure);
@@ -69,16 +115,53 @@ public class MainActivity extends AppCompatActivity {
         swipeLayout = findViewById(R.id.swipeLayout);
         // note LayoutManager() 함수로 생성자 추가
         dRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        dustRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        humiRV.setLayoutManager(new LinearLayoutManager(this));
+        tempRV.setLayoutManager(new LinearLayoutManager(this));
+        tvocRV.setLayoutManager(new LinearLayoutManager(this));
+        dustRV.setLayoutManager(new LinearLayoutManager(this));
+        dustminRV.setLayoutManager(new LinearLayoutManager(this));
+        pm1RV.setLayoutManager(new LinearLayoutManager(this));
+        coRV.setLayoutManager(new LinearLayoutManager(this));
+        ch2oRV.setLayoutManager(new LinearLayoutManager(this));
+        co2RV.setLayoutManager(new LinearLayoutManager(this));
+        dustItemRV.setLayoutManager(new LinearLayoutManager(this));
         // note ArrayList<>() 함수 추가
         dArrayList = new ArrayList<>();
+        humiArrayList = new ArrayList<>();
+        tempArrayList = new ArrayList<>();
+        tvocArrayList = new ArrayList<>();
         dustArrayList = new ArrayList<>();
+        dustminArrayList = new ArrayList<>();
+        pm1ArrayList = new ArrayList<>();
+        coArrayList = new ArrayList<>();
+        ch2oArrayList = new ArrayList<>();
+        co2ArrayList = new ArrayList<>();
+        dustItemArrayList = new ArrayList<>();
         // note IricosAdapter() 함수에 ArrayList 생성
         dAdapter = new DustsAdapter(this, dArrayList);
-        dustAdapter = new DustItemAdapter(this, dustArrayList);
+        humiAdapter = new HumiItemAdapter(this, humiArrayList);
+        tempAdapter = new TempItemAdapter(this, tempArrayList);
+        tvocAdapter = new TvocItemAdapter(this, tvocArrayList);
+        dustAdapter = new DustAdapter(this, dustArrayList);
+        dustminAdapter = new DustMinItemAdapter(this, dustminArrayList);
+        pm1Adapter = new Pm1ItemAdapter(this, pm1ArrayList);
+        coAdapter = new CoItemAdapter(this, coArrayList);
+        ch2oAdapter = new Ch2oItemAdapter(this, ch2oArrayList);
+        co2Adapter = new Co2ItemAdapter(this, coArrayList);
+        dustItemAdapter = new DustItemAdapter(this, dustItemArrayList);
         // note dRecyclerView dAdapter 변수 불러오는 코드
         dRecyclerView.setAdapter(dAdapter);
-        dustRecyclerView.setAdapter(dustAdapter);
+        humiRV.setAdapter(humiAdapter);
+        tempRV.setAdapter(tempAdapter);
+        tvocRV.setAdapter(tvocAdapter);
+        dustRV.setAdapter(dustAdapter);
+        dustminRV.setAdapter(dustminAdapter);
+        pm1RV.setAdapter(pm1Adapter);
+        coRV.setAdapter(coAdapter);
+        ch2oRV.setAdapter(ch2oAdapter);
+        co2RV.setAdapter(co2Adapter);
+        dustItemRV.setAdapter(dustItemAdapter);
+
         GetData data = new GetData();
         data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
 
@@ -86,8 +169,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 swipeLayout.setRefreshing(false);
-                dArrayList.clear(); // dAdapter.notifyDataSetChanged();
-                dustArrayList.clear(); // dustAdapter.notifyDataSetChanged();
+                dArrayList.clear();
+                humiArrayList.clear();
+                tempArrayList.clear();
+                tvocArrayList.clear();
+                dustArrayList.clear();
+                dustminArrayList.clear();
+                pm1ArrayList.clear();
+                coArrayList.clear();
+                ch2oArrayList.clear();
+                co2ArrayList.clear();
+                dustItemArrayList.clear();
                 GetData data = new GetData();
                 data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
             }
@@ -96,22 +188,22 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if(true){
                     mHandler.postDelayed(this,15000);
-                    dArrayList.clear(); // dAdapter.notifyDataSetChanged();
-                    dustArrayList.clear(); // dustAdapter.notifyDataSetChanged();
+                    dArrayList.clear();
+                    humiArrayList.clear();
+                    tempArrayList.clear();
+                    tvocArrayList.clear();
+                    dustArrayList.clear();
+                    dustminArrayList.clear();
+                    pm1ArrayList.clear();
+                    coArrayList.clear();
+                    ch2oArrayList.clear();
+                    co2ArrayList.clear();
+                    dustItemArrayList.clear();
                     GetData data = new GetData();
                     data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
                 }
             }
         },100);
-/*        Button button_all = (Button)findViewById(R.id.button_main_all);
-        button_all.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                dArrayList.clear(); // dAdapter.notifyDataSetChanged();
-                dustArrayList.clear(); // dustAdapter.notifyDataSetChanged();
-                GetData data = new GetData();
-                data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
-            }
-        });*/
     }
     @Override
     public void onBackPressed() {
@@ -134,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, " 백그라운드 작업이 완료 된 후 결과값을 얻었어요. - " + result);
 
             if(result == null){
-                Log.d(TAG, "");
+                Log.d(TAG, "edgsfgha r reg ARE G");
             } else {
                 dJsonString = result;
                 showResult();
@@ -228,7 +320,6 @@ public class MainActivity extends AppCompatActivity {
 
                 DustData dustData = new DustData();
                 DustData dustData1 = new DustData();
-                DustData dustData2 = new DustData();
 
                 dustData.setHumi(humi);
                 dustData.setTemp(temp);
@@ -240,13 +331,30 @@ public class MainActivity extends AppCompatActivity {
                 dustData.setCh2o(ch2o);
                 dustData.setPm1(pm1);
 
-                dustData1.setDustitem(dustItem);
-                dustData2.setDustitem(dustItem);
+                dustData1.setDustItem(dustItem);
 
                 dArrayList.add(dustData);
+                humiArrayList.add(dustData);
+                tempArrayList.add(dustData);
+                tvocArrayList.add(dustData);
+                dustArrayList.add(dustData);
+                dustminArrayList.add(dustData);
+                pm1ArrayList.add(dustData);
+                coArrayList.add(dustData);
+                ch2oArrayList.add(dustData);
+                co2ArrayList.add(dustData);
+                dustItemArrayList.add(dustData1);
                 dAdapter.notifyDataSetChanged();
-                dustArrayList.add(dustData1);
+                humiAdapter.notifyDataSetChanged();
+                tempAdapter.notifyDataSetChanged();
+                tvocAdapter.notifyDataSetChanged();
                 dustAdapter.notifyDataSetChanged();
+                dustminAdapter.notifyDataSetChanged();
+                pm1Adapter.notifyDataSetChanged();
+                coAdapter.notifyDataSetChanged();
+                ch2oAdapter.notifyDataSetChanged();
+                co2Adapter.notifyDataSetChanged();
+                dustItemAdapter.notifyDataSetChanged();
                 if (dustItem <= 30){
                     mainFigure.setText("안전");
                     mainFigure.setBackgroundColor(Color.parseColor("#03F30D"));
