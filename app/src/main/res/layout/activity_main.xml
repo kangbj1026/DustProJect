@@ -11,12 +11,12 @@
     android:id="@+id/scrollAll"
     android:fillViewport="true">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="5dp"
         android:id="@+id/mainImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:addStatesFromChildren="false"
         android:orientation="vertical"
-        android:padding="10dp"
         tools:context=".MainActivity">
         <!--
         note 상단의 RecyclerView 에는 데이터베이스로부터 가져온 JSON 형식의
@@ -85,11 +85,19 @@
             app:layout_constraintTop_toTopOf="@+id/imageColor" />
 
         <TextView
+            android:id="@+id/textGeoCoder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/pm10"
+            app:layout_constraintEnd_toEndOf="@+id/pm10"
+            app:layout_constraintStart_toStartOf="@+id/pm10" />
+        <TextView
             android:id="@+id/pm10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:text="미세먼지 PM10"
             android:textColor="#000000"
             android:textSize="21dp"
