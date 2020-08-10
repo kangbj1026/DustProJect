@@ -505,7 +505,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "주소 미발견 / 허용시 App 종료 후 재실행 바랍니다", Toast.LENGTH_LONG).show();
             return "주소 미발견";
         }
         Address address = addresses.get(0);

@@ -83,7 +83,6 @@
             app:layout_constraintEnd_toEndOf="@+id/imageColor"
             app:layout_constraintStart_toStartOf="@+id/imageColor"
             app:layout_constraintTop_toTopOf="@+id/imageColor" />
-
         <TextView
             android:id="@+id/textGeoCoder"
             android:layout_width="wrap_content"
@@ -107,7 +106,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dustView"
             android:layout_width="wrap_content"
-            android:layout_height="80dp"
+            android:layout_height="55dp"
             android:background="#00ff0000"
             android:gravity="center_horizontal"
             android:overScrollMode="never"
@@ -123,7 +122,7 @@
             app:layout_constraintEnd_toEndOf="@+id/mainFigure"
             app:layout_constraintStart_toStartOf="@+id/mainText"
             app:layout_constraintTop_toBottomOf="@+id/charView">
-            <TextView
+        <TextView
                 android:id="@+id/humiName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -136,7 +135,7 @@
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/humi"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -146,7 +145,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <TextView
+        <TextView
                 android:id="@+id/tempName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -158,7 +157,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/temp"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -168,7 +167,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <TextView
+        <TextView
                 android:id="@+id/tvocName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -180,7 +179,7 @@
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tvoc"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -198,7 +197,7 @@
             app:layout_constraintEnd_toEndOf="@+id/mainFigure"
             app:layout_constraintStart_toStartOf="@+id/mainText"
             app:layout_constraintTop_toBottomOf="@+id/tableRow">
-            <TextView
+        <TextView
                 android:id="@+id/dustName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -211,7 +210,7 @@
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dust"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -221,7 +220,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <TextView
+        <TextView
                 android:id="@+id/dustminName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -233,7 +232,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dustmin"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -243,7 +242,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <TextView
+        <TextView
                 android:id="@+id/pm1Name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -255,7 +254,7 @@
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pm1"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -273,7 +272,7 @@
             app:layout_constraintEnd_toEndOf="@+id/mainFigure"
             app:layout_constraintStart_toStartOf="@+id/mainText"
             app:layout_constraintTop_toBottomOf="@+id/tableRow1">
-            <TextView
+        <TextView
                 android:id="@+id/coName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -286,7 +285,7 @@
                 android:textSize="18dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/co"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -296,7 +295,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <TextView
+        <TextView
                 android:id="@+id/ch2oName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -308,7 +307,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ch2o"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -318,7 +317,7 @@
                 android:layout_marginRight="10dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <TextView
+        <TextView
                 android:id="@+id/co2Name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -330,7 +329,7 @@
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-            <androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/co2"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
@@ -341,7 +340,6 @@
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
         </TableRow>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView_main_list"
             android:layout_width="match_parent"
