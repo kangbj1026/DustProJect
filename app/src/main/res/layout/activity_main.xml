@@ -656,7 +656,23 @@
             app:layout_constraintEnd_toEndOf="@+id/layoutFire"
             app:layout_constraintStart_toStartOf="@+id/layoutFire"
             app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-
+<!--        <FrameLayout android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?attr/actionBarSize"/>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_gravity="bottom"
+            android:background="@color/cardview_dark_background"
+            app:menu="@menu/menu_bottom"
+            app:labelVisibilityMode="unlabeled"
+            app:itemBackground="@color/cardview_dark_background"
+            app:itemIconTint="@drawable/item_color"
+            app:itemTextColor="@drawable/item_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

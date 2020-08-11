@@ -58,57 +58,34 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+    final Handler dHandler = new Handler();
+    final TextView textView_address = findViewById(R.id.textGeoCoder);
     private static String IP_ADDRESS = "211.206.115.62:81"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
     private static String TAG = "PHP";
-
     private GpsTracker gpsTracker;
-
-    private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int GPS_ENABLE_REQUEST_CODE = 2020;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-
+    String[] REQUIRED_PERMISSIONS  = { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION };
     private RecyclerView dRecyclerView;
-    private RecyclerView humiRV;
-    private RecyclerView tempRV;
-    private RecyclerView tvocRV;
-    private RecyclerView dustRV;
-    private RecyclerView dustminRV;
-    private RecyclerView pm1RV;
-    private RecyclerView coRV;
-    private RecyclerView ch2oRV;
-    private RecyclerView co2RV;
-    private RecyclerView dustItemRV;
-    private ArrayList<DustData> dArrayList;
-    private ArrayList<DustData> humiArrayList;
-    private ArrayList<DustData> tempArrayList;
-    private ArrayList<DustData> tvocArrayList;
-    private ArrayList<DustData> dustArrayList;
-    private ArrayList<DustData> dustminArrayList;
-    private ArrayList<DustData> pm1ArrayList;
-    private ArrayList<DustData> coArrayList;
-    private ArrayList<DustData> ch2oArrayList;
-    private ArrayList<DustData> co2ArrayList;
-    private ArrayList<DustData> dustItemArrayList;
-    private DustsAdapter dAdapter;
-    private HumiItemAdapter humiAdapter;
-    private TempItemAdapter tempAdapter;
-    private TvocItemAdapter tvocAdapter;
-    private DustAdapter dustAdapter;
-    private DustMinItemAdapter dustminAdapter;
-    private Pm1ItemAdapter pm1Adapter;
-    private CoItemAdapter coAdapter;
-    private Ch2oItemAdapter ch2oAdapter;
-    private Co2ItemAdapter co2Adapter;
-    private DustItemAdapter dustItemAdapter;
+    private RecyclerView humiRV,tempRV,tvocRV,dustRV,dustminRV,pm1RV,coRV,ch2oRV,co2RV,dustItemRV;
+    private ArrayList<DustData> dAL,humiAL,tempAL,tvocAL,dustAL,dustminAL,pm1AL,coAL,ch2oAL,co2AL,dustItemAL;
+    private DustsAdapter dAT;
+    private HumiItemAdapter humiAT;
+    private TempItemAdapter tempAT;
+    private TvocItemAdapter tvocAT;
+    private DustAdapter dustAT;
+    private DustMinItemAdapter dustminAT;
+    private Pm1ItemAdapter pm1AT;
+    private CoItemAdapter coAT;
+    private Ch2oItemAdapter ch2oAT;
+    private Co2ItemAdapter co2AT;
+    private DustItemAdapter dustItemAT;
     private String dJsonString;
-    private ImageView charView;
-    private ImageView imageColor;
-    private ImageView imageChar;
-    private TextView mainFigure;
+    private ImageView charView,imageColor,imageChar;
+    private TextView mainFigure,colorText;
     private ConstraintLayout mainImage;
-    private TextView colorText;
     private SwipeRefreshLayout swipeLayout;
-    final Handler mHandler = new Handler();
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,81 +94,37 @@ public class MainActivity extends AppCompatActivity {
         // note view 보여주기 위한 코드
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         dRecyclerView = findViewById(R.id.listView_main_list);
-        humiRV = findViewById(R.id.humi);
-        tempRV = findViewById(R.id.temp);
-        tvocRV = findViewById(R.id.tvoc);
-        dustRV = findViewById(R.id.dust);
-        dustminRV = findViewById(R.id.dustmin);
-        pm1RV = findViewById(R.id.pm1);
-        coRV = findViewById(R.id.co);
-        ch2oRV = findViewById(R.id.ch2o);
-        co2RV = findViewById(R.id.co2);
-        dustItemRV = findViewById(R.id.dustView);
-        mainImage = findViewById(R.id.mainImage);
-        charView = findViewById(R.id.charView);
-        mainFigure = findViewById(R.id.mainFigure);
-        imageColor = findViewById(R.id.imageColor);
-        imageChar = findViewById(R.id.imageChar);
-        colorText = findViewById(R.id.colorText);
-        swipeLayout = findViewById(R.id.swipeLayout);
+        humiRV = findViewById(R.id.humi);tempRV = findViewById(R.id.temp);tvocRV = findViewById(R.id.tvoc);dustRV = findViewById(R.id.dust);
+        dustminRV = findViewById(R.id.dustmin);pm1RV = findViewById(R.id.pm1);coRV = findViewById(R.id.co);ch2oRV = findViewById(R.id.ch2o);
+        co2RV = findViewById(R.id.co2);dustItemRV = findViewById(R.id.dustView);mainImage = findViewById(R.id.mainImage);charView = findViewById(R.id.charView);
+        mainFigure = findViewById(R.id.mainFigure);imageColor = findViewById(R.id.imageColor);imageChar = findViewById(R.id.imageChar);
+        colorText = findViewById(R.id.colorText);swipeLayout = findViewById(R.id.swipeLayout);
         // note LayoutManager() 함수로 생성자 추가
-        dRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        humiRV.setLayoutManager(new LinearLayoutManager(this));
-        tempRV.setLayoutManager(new LinearLayoutManager(this));
-        tvocRV.setLayoutManager(new LinearLayoutManager(this));
-        dustRV.setLayoutManager(new LinearLayoutManager(this));
-        dustminRV.setLayoutManager(new LinearLayoutManager(this));
-        pm1RV.setLayoutManager(new LinearLayoutManager(this));
-        coRV.setLayoutManager(new LinearLayoutManager(this));
-        ch2oRV.setLayoutManager(new LinearLayoutManager(this));
-        co2RV.setLayoutManager(new LinearLayoutManager(this));
+        dRecyclerView.setLayoutManager(new LinearLayoutManager(this));humiRV.setLayoutManager(new LinearLayoutManager(this));
+        tempRV.setLayoutManager(new LinearLayoutManager(this));tvocRV.setLayoutManager(new LinearLayoutManager(this));
+        dustRV.setLayoutManager(new LinearLayoutManager(this));dustminRV.setLayoutManager(new LinearLayoutManager(this));
+        pm1RV.setLayoutManager(new LinearLayoutManager(this));coRV.setLayoutManager(new LinearLayoutManager(this));
+        ch2oRV.setLayoutManager(new LinearLayoutManager(this));co2RV.setLayoutManager(new LinearLayoutManager(this));
         dustItemRV.setLayoutManager(new LinearLayoutManager(this));
         // note ArrayList<>() 함수 추가
-        dArrayList = new ArrayList<>();
-        humiArrayList = new ArrayList<>();
-        tempArrayList = new ArrayList<>();
-        tvocArrayList = new ArrayList<>();
-        dustArrayList = new ArrayList<>();
-        dustminArrayList = new ArrayList<>();
-        pm1ArrayList = new ArrayList<>();
-        coArrayList = new ArrayList<>();
-        ch2oArrayList = new ArrayList<>();
-        co2ArrayList = new ArrayList<>();
-        dustItemArrayList = new ArrayList<>();
+        dAL = new ArrayList<>();humiAL = new ArrayList<>();tempAL = new ArrayList<>();tvocAL = new ArrayList<>();dustAL = new ArrayList<>();
+        dustminAL = new ArrayList<>();pm1AL = new ArrayList<>();coAL = new ArrayList<>();ch2oAL = new ArrayList<>();co2AL = new ArrayList<>();
+        dustItemAL = new ArrayList<>();
         // note IricosAdapter() 함수에 ArrayList 생성
-        dAdapter = new DustsAdapter(this, dArrayList);
-        humiAdapter = new HumiItemAdapter(this, humiArrayList);
-        tempAdapter = new TempItemAdapter(this, tempArrayList);
-        tvocAdapter = new TvocItemAdapter(this, tvocArrayList);
-        dustAdapter = new DustAdapter(this, dustArrayList);
-        dustminAdapter = new DustMinItemAdapter(this, dustminArrayList);
-        pm1Adapter = new Pm1ItemAdapter(this, pm1ArrayList);
-        coAdapter = new CoItemAdapter(this, coArrayList);
-        ch2oAdapter = new Ch2oItemAdapter(this, ch2oArrayList);
-        co2Adapter = new Co2ItemAdapter(this, coArrayList);
-        dustItemAdapter = new DustItemAdapter(this, dustItemArrayList);
-        // note dRecyclerView dAdapter 변수 불러오는 코드
-        dRecyclerView.setAdapter(dAdapter);
-        humiRV.setAdapter(humiAdapter);
-        tempRV.setAdapter(tempAdapter);
-        tvocRV.setAdapter(tvocAdapter);
-        dustRV.setAdapter(dustAdapter);
-        dustminRV.setAdapter(dustminAdapter);
-        pm1RV.setAdapter(pm1Adapter);
-        coRV.setAdapter(coAdapter);
-        ch2oRV.setAdapter(ch2oAdapter);
-        co2RV.setAdapter(co2Adapter);
-        dustItemRV.setAdapter(dustItemAdapter);
+        dAT = new DustsAdapter(this, dAL);humiAT = new HumiItemAdapter(this, humiAL);tempAT = new TempItemAdapter(this, tempAL);
+        tvocAT = new TvocItemAdapter(this, tvocAL);dustAT = new DustAdapter(this, dustAL);dustminAT = new DustMinItemAdapter(this, dustminAL);
+        pm1AT = new Pm1ItemAdapter(this, pm1AL);coAT = new CoItemAdapter(this, coAL);ch2oAT = new Ch2oItemAdapter(this, ch2oAL);
+        co2AT = new Co2ItemAdapter(this, coAL);dustItemAT = new DustItemAdapter(this, dustItemAL);
+        // note dRecyclerView dAT 변수 불러오는 코드
+        dRecyclerView.setAdapter(dAT);humiRV.setAdapter(humiAT);tempRV.setAdapter(tempAT);tvocRV.setAdapter(tvocAT);dustRV.setAdapter(dustAT);dustminRV.setAdapter(dustminAT);
+        pm1RV.setAdapter(pm1AT);coRV.setAdapter(coAT);ch2oRV.setAdapter(ch2oAT);co2RV.setAdapter(co2AT);dustItemRV.setAdapter(dustItemAT);
 
         GetData data = new GetData();
         data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
 
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
-        }else {
-            checkRunTimePermission();
-        }
-        final TextView textView_address = (TextView)findViewById(R.id.textGeoCoder);
+        } else { checkRunTimePermission(); }
 
         gpsTracker = new GpsTracker(MainActivity.this);
 
@@ -205,38 +138,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 swipeLayout.setRefreshing(false);
-                dArrayList.clear();
-                humiArrayList.clear();
-                tempArrayList.clear();
-                tvocArrayList.clear();
-                dustArrayList.clear();
-                dustminArrayList.clear();
-                pm1ArrayList.clear();
-                coArrayList.clear();
-                ch2oArrayList.clear();
-                co2ArrayList.clear();
-                dustItemArrayList.clear();
+                dAL.clear();humiAL.clear();tempAL.clear();tvocAL.clear();dustAL.clear();dustminAL.clear();
+                pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
                 GetData data = new GetData();
                 data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
+                double latitude = gpsTracker.getLatitude();double longitude = gpsTracker.getLongitude();
+                String address = getCurrentAddress(latitude, longitude);
+                textView_address.setText(address);
             }
         });
-        mHandler.postDelayed(new Runnable()  {
+        dHandler.postDelayed(new Runnable()  {
             public void run() {
                 if(true){
-                    mHandler.postDelayed(this,15000);
-                    dArrayList.clear();
-                    humiArrayList.clear();
-                    tempArrayList.clear();
-                    tvocArrayList.clear();
-                    dustArrayList.clear();
-                    dustminArrayList.clear();
-                    pm1ArrayList.clear();
-                    coArrayList.clear();
-                    ch2oArrayList.clear();
-                    co2ArrayList.clear();
-                    dustItemArrayList.clear();
+                    dHandler.postDelayed(this,15000);
+                    dAL.clear();humiAL.clear();tempAL.clear();tvocAL.clear();dustAL.clear();dustminAL.clear();
+                    pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
                     GetData data = new GetData();
                     data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
+                    double latitude = gpsTracker.getLatitude();double longitude = gpsTracker.getLongitude();
+                    String address = getCurrentAddress(latitude, longitude);
+                    textView_address.setText(address);
                 }
             }
         },100);
@@ -369,28 +290,28 @@ public class MainActivity extends AppCompatActivity {
 
                 dustData1.setDustItem(dustItem);
 
-                dArrayList.add(dustData);
-                humiArrayList.add(dustData);
-                tempArrayList.add(dustData);
-                tvocArrayList.add(dustData);
-                dustArrayList.add(dustData);
-                dustminArrayList.add(dustData);
-                pm1ArrayList.add(dustData);
-                coArrayList.add(dustData);
-                ch2oArrayList.add(dustData);
-                co2ArrayList.add(dustData);
-                dustItemArrayList.add(dustData1);
-                dAdapter.notifyDataSetChanged();
-                humiAdapter.notifyDataSetChanged();
-                tempAdapter.notifyDataSetChanged();
-                tvocAdapter.notifyDataSetChanged();
-                dustAdapter.notifyDataSetChanged();
-                dustminAdapter.notifyDataSetChanged();
-                pm1Adapter.notifyDataSetChanged();
-                coAdapter.notifyDataSetChanged();
-                ch2oAdapter.notifyDataSetChanged();
-                co2Adapter.notifyDataSetChanged();
-                dustItemAdapter.notifyDataSetChanged();
+                dAL.add(dustData);
+                humiAL.add(dustData);
+                tempAL.add(dustData);
+                tvocAL.add(dustData);
+                dustAL.add(dustData);
+                dustminAL.add(dustData);
+                pm1AL.add(dustData);
+                coAL.add(dustData);
+                ch2oAL.add(dustData);
+                co2AL.add(dustData);
+                dustItemAL.add(dustData1);
+                dAT.notifyDataSetChanged();
+                humiAT.notifyDataSetChanged();
+                tempAT.notifyDataSetChanged();
+                tvocAT.notifyDataSetChanged();
+                dustAT.notifyDataSetChanged();
+                dustminAT.notifyDataSetChanged();
+                pm1AT.notifyDataSetChanged();
+                coAT.notifyDataSetChanged();
+                ch2oAT.notifyDataSetChanged();
+                co2AT.notifyDataSetChanged();
+                dustItemAT.notifyDataSetChanged();
                 if (dustItem <= 30){
                     mainFigure.setText("안전");
                     mainFigure.setBackgroundColor(Color.parseColor("#03F30D"));
@@ -503,14 +424,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
             return "잘못된 GPS 좌표";
         }
-
         if (addresses == null || addresses.size() == 0) {
             Toast.makeText(this, "주소 미발견 / 허용시 App 종료 후 재실행 바랍니다", Toast.LENGTH_LONG).show();
             return "주소 미발견";
         }
         Address address = addresses.get(0);
-        return /*address.getAdminArea()+" "+*/address.getFeatureName()+" "+address.getThoroughfare();
+        // return /*address.getAdminArea()+" "+address.getFeatureName()+" "+address.getThoroughfare();*/
         // return address.getAddressLine(0);
+        return address.getSubLocality()+" "+address.getThoroughfare();
     }
     //여기부터는 GPS 활성화를 위한 메소드들
     private void showDialogForLocationServiceSetting() {
@@ -542,19 +463,16 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-
             case GPS_ENABLE_REQUEST_CODE:
-
                 //사용자가 GPS 활성 시켰는지 검사
                 if (checkLocationServicesStatus()) {
                     if (checkLocationServicesStatus()) {
-
                         Log.d("@@@", "onActivityResult : GPS 활성화 되있음");
                         checkRunTimePermission();
                         return;
                     }
                 }
-                break;
+            break;
         }
     }
     public boolean checkLocationServicesStatus() {
