@@ -124,71 +124,67 @@
             app:layout_constraintTop_toBottomOf="@+id/charView">
         <TextView
                 android:id="@+id/humiName"
+                android:text="습도"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
                 android:layout_weight="1"
-                android:text="습도"
                 android:textColor="#0064FF"
-                android:layout_marginRight="10dp"
                 android:textSize="16dp"
                 android:textAlignment="center"
                 android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/humi"
                 android:layout_width="0dp"
                 android:layout_height="35dp"
-                android:layout_weight="1.5"
+                android:layout_weight="1"
                 android:textColor="#0064FF"
                 android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+                android:layout_marginRight="10dp" />
         <TextView
                 android:id="@+id/tempName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
                 android:text="온도"
-                android:textColor="#0064FF"
-                android:textSize="16dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/temp"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp" />
         <TextView
                 android:id="@+id/tvocName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1.2"
                 android:text="TVOC"
-                android:layout_marginRight="10dp"
-                android:textColor="#0064FF"
-                android:textSize="16dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1.2"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tvoc"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="0dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"/>
         </TableRow>
         <TableRow
             android:id="@+id/tableRow1"
@@ -198,72 +194,67 @@
             app:layout_constraintStart_toStartOf="@+id/mainText"
             app:layout_constraintTop_toBottomOf="@+id/tableRow">
         <TextView
-                android:id="@+id/dustName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="Dust"
-                android:textColor="#0064FF"
-                android:layout_marginRight="10dp"
-                android:textSize="16dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:id="@+id/dustName"
+            android:text="PM10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/dust"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp" />
         <TextView
-                android:id="@+id/dustminName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1.4"
-                android:text="D.Min"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:id="@+id/dustminName"
+            android:text="PM2.5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dustmin"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:id="@+id/dustmin"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp" />
         <TextView
                 android:id="@+id/pm1Name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1.2"
-                android:text="Pm1"
-                android:layout_marginRight="10dp"
-                android:textColor="#0064FF"
-                android:textSize="16dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:text="PM1.0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1.2"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pm1"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="0dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"/>
         </TableRow>
         <TableRow
             android:id="@+id/tableRow2"
@@ -274,71 +265,66 @@
             app:layout_constraintTop_toBottomOf="@+id/tableRow1">
         <TextView
                 android:id="@+id/coName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="Co"
-                android:textColor="#0064FF"
-                android:layout_marginRight="10dp"
-                android:textSize="18dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:text="Co"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/co"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp" />
         <TextView
                 android:id="@+id/ch2oName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1.3"
-                android:text="CH2o"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:text="CH2o"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ch2o"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp" />
         <TextView
                 android:id="@+id/co2Name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1.2"
-                android:text="CO2"
-                android:layout_marginRight="10dp"
-                android:textColor="#0064FF"
-                android:textSize="16dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:text="CO2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1.2"
+            android:textColor="#0064FF"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:gravity="center_horizontal"/>
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/co2"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1.5"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="0dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#0064FF"
+            android:textSize="18dp"
+            android:layout_marginRight="10dp"/>
         </TableRow>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listView_main_list"
@@ -476,8 +462,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="280dp"
-            android:text="가스누출"
+            android:layout_marginRight="220dp"
+            android:text="유기성 유해화합물"
             android:textColor="#000000"
             android:textSize="15dp"
             app:layout_constraintBottom_toTopOf="@+id/layoutGas"
@@ -656,23 +642,31 @@
             app:layout_constraintEnd_toEndOf="@+id/layoutFire"
             app:layout_constraintStart_toStartOf="@+id/layoutFire"
             app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-<!--        <FrameLayout android:id="@+id/main_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="?attr/actionBarSize"/>
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_gravity="bottom"
-            android:background="@color/cardview_dark_background"
-            app:menu="@menu/menu_bottom"
-            app:labelVisibilityMode="unlabeled"
-            app:itemBackground="@color/cardview_dark_background"
-            app:itemIconTint="@drawable/item_color"
-            app:itemTextColor="@drawable/item_color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/navigationLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/mainBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/home"
+                    android:gravity="center_horizontal"
+                    app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
+                    app:layout_constraintEnd_toStartOf="@id/mainSet"
+                    app:layout_constraintStart_toStartOf="@id/navigationLayout"/>
+                <Button
+                    android:id="@+id/mainSet"
+                    android:layout_width="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/setting"
+                    app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/mainBtn"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

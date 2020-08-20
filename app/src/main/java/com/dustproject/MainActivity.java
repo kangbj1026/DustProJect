@@ -8,18 +8,25 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -59,7 +66,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     final Handler dHandler = new Handler();
-    final TextView textView_address = findViewById(R.id.textGeoCoder);
+
     private static String IP_ADDRESS = "211.206.115.62:81"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
     private static String TAG = "PHP";
     private GpsTracker gpsTracker;
@@ -85,11 +92,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView mainFigure,colorText;
     private ConstraintLayout mainImage;
     private SwipeRefreshLayout swipeLayout;
+    private Button mainBtn;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         // note view 보여주기 위한 코드
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -118,8 +127,7 @@ public class MainActivity extends AppCompatActivity {
         // note dRecyclerView dAT 변수 불러오는 코드
         dRecyclerView.setAdapter(dAT);humiRV.setAdapter(humiAT);tempRV.setAdapter(tempAT);tvocRV.setAdapter(tvocAT);dustRV.setAdapter(dustAT);dustminRV.setAdapter(dustminAT);
         pm1RV.setAdapter(pm1AT);coRV.setAdapter(coAT);ch2oRV.setAdapter(ch2oAT);co2RV.setAdapter(co2AT);dustItemRV.setAdapter(dustItemAT);
-
-        GetData data = new GetData();
+        final GetData data = new GetData();
         data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
 
         if (!checkLocationServicesStatus()) {
@@ -127,12 +135,21 @@ public class MainActivity extends AppCompatActivity {
         } else { checkRunTimePermission(); }
 
         gpsTracker = new GpsTracker(MainActivity.this);
-
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
-
+        final double latitude = gpsTracker.getLatitude();
+        final double longitude = gpsTracker.getLongitude();
+        final TextView textView_address = findViewById(R.id.textGeoCoder);
         String address = getCurrentAddress(latitude, longitude);
         textView_address.setText(address);
+
+        mainBtn = findViewById(R.id.mainSet);
+        mainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SetActivity.class);
+                startActivity(intent);
+                overridePendingTransition(0,0);
+            }
+        });
 
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -142,7 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
                 GetData data = new GetData();
                 data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
-                double latitude = gpsTracker.getLatitude();double longitude = gpsTracker.getLongitude();
+/*                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude();*/
                 String address = getCurrentAddress(latitude, longitude);
                 textView_address.setText(address);
             }
@@ -155,16 +173,19 @@ public class MainActivity extends AppCompatActivity {
                     pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
                     GetData data = new GetData();
                     data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
-                    double latitude = gpsTracker.getLatitude();double longitude = gpsTracker.getLongitude();
+/*                    double latitude = gpsTracker.getLatitude();
+                    double longitude = gpsTracker.getLongitude();*/
                     String address = getCurrentAddress(latitude, longitude);
                     textView_address.setText(address);
                 }
             }
         },100);
+
     }
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+        System.exit(1);
     }
     private class GetData extends AsyncTask<String,Void,String>{
         ProgressDialog progressDialog;
@@ -175,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             progressDialog = ProgressDialog.show(MainActivity.this,
                     "Please Wait",null,true,true);
         }
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -247,7 +269,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showResult(){
+        final Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        final ImageView image = new ImageView(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(image);
+        final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
         String TAG_JSON = "dustData";
         String TAG_HUMI = "humi";
         String TAG_TEMP = "temp";
@@ -312,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 ch2oAT.notifyDataSetChanged();
                 co2AT.notifyDataSetChanged();
                 dustItemAT.notifyDataSetChanged();
+
                 if (dustItem <= 30){
                     mainFigure.setText("안전");
                     mainFigure.setBackgroundColor(Color.parseColor("#03F30D"));
@@ -320,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
                     mainImage.setBackgroundResource(R.drawable.bg_step01);
                     colorText.setText("좋음");
                     Glide.with(this).load(R.raw.char_nstep01).into(charView);
+
                 } else if (dustItem > 30 && dustItem <= 80){
                     mainFigure.setText("안전");
                     mainFigure.setBackgroundColor(Color.parseColor("#288CFF"));
@@ -328,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
                     mainImage.setBackgroundResource(R.drawable.bg_step02);
                     colorText.setText("보통");
                     Glide.with(this).load(R.raw.char_step02).into(charView);
+
                 } else if (dustItem > 80 && dustItem <= 150){
                     mainFigure.setText("경고");
                     mainFigure.setBackgroundColor(Color.parseColor("#D2691E"));
@@ -336,6 +368,21 @@ public class MainActivity extends AppCompatActivity {
                     mainImage.setBackgroundResource(R.drawable.bg_step03);
                     colorText.setText("나쁨");
                     Glide.with(this).load(R.raw.char_step03).into(charView);
+                    vib.vibrate(new long[]{500,500},-1);
+                    image.setImageResource(R.drawable.alert1);
+                    image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                        }
+                    });
+                    dialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                        }
+                    }, 5000);
                 } else if (dustItem > 150) {
                     mainFigure.setText("위험");
                     mainFigure.setBackgroundColor(Color.parseColor("#EB0000"));
@@ -344,12 +391,28 @@ public class MainActivity extends AppCompatActivity {
                     mainImage.setBackgroundResource(R.drawable.bg_step04);
                     colorText.setText("극혐");
                     Glide.with(this).load(R.raw.char_step04).into(charView);
+                    vib.vibrate(new long[]{500,500},-1);
+                    image.setImageResource(R.drawable.alert);
+                    image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                        }
+                    });
+                    dialog.show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.dismiss();
+                        }
+                    }, 5000);
                 }
             }
         } catch (JSONException e){
             Log.d(TAG,"showResult :",e);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
@@ -457,17 +520,15 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode) {
             case GPS_ENABLE_REQUEST_CODE:
                 //사용자가 GPS 활성 시켰는지 검사
                 if (checkLocationServicesStatus()) {
                     if (checkLocationServicesStatus()) {
-                        Log.d("@@@", "onActivityResult : GPS 활성화 되있음");
+                        Log.d("", "onActivityResult : GPS 활성화 되있음");
                         checkRunTimePermission();
                         return;
                     }
@@ -481,4 +542,10 @@ public class MainActivity extends AppCompatActivity {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
 }
