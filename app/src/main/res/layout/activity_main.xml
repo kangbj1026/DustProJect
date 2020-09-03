@@ -74,11 +74,11 @@
         <TextView
             android:id="@+id/colorText"
             android:layout_width="45dp"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:textAlignment="center"
             android:textColor="#F4FFFF"
-            android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageColor"
             app:layout_constraintEnd_toEndOf="@+id/imageColor"
             app:layout_constraintStart_toStartOf="@+id/imageColor"
@@ -336,13 +336,14 @@
             app:layout_constraintEnd_toEndOf="@+id/mainFigure"
             app:layout_constraintStart_toStartOf="@+id/mainText"
             app:layout_constraintTop_toBottomOf="@+id/charView" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="270dp"
-            android:text="초미세먼지"
+            android:text="미세먼지"
             android:textColor="#000000"
-            android:textSize="15dp"
+            android:textSize="13dp"
             app:layout_constraintBottom_toTopOf="@+id/layoutCr"
             app:layout_constraintEnd_toEndOf="@id/layoutCr"
             app:layout_constraintStart_toStartOf="@+id/layoutCr" />
@@ -351,16 +352,15 @@
             android:id="@+id/layoutCr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listView_main_list">
+            app:layout_constraintTop_toBottomOf="@+id/tableRow2">
 
             <TextView
-                android:id="@+id/Cr01"
-                android:layout_width="83dp"
-                android:layout_height="25dp"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
                 android:background="#00BFFF"
                 android:gravity="center"
                 android:text="매우좋음"
@@ -368,9 +368,8 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/Cr02"
-                android:layout_width="83dp"
-                android:layout_height="25dp"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
                 android:background="#80E12A"
                 android:gravity="center"
                 android:text="좋음"
@@ -378,9 +377,8 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/Cr03"
-                android:layout_width="83dp"
-                android:layout_height="25dp"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
                 android:background="#FFA500"
                 android:gravity="center"
                 android:text="나쁨"
@@ -388,9 +386,8 @@
                 android:textSize="15dp" />
 
             <TextView
-                android:id="@+id/Cr04"
-                android:layout_width="83dp"
-                android:layout_height="25dp"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
                 android:background="#FF0000"
                 android:gravity="center"
                 android:text="매우나쁨"
@@ -401,20 +398,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="260dp"
-            android:text="기준 : WHO"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutCr"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="320dp"
+            android:layout_marginRight="310dp"
             android:text="0"
+            android:textSize="13dp"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutCr"
             app:layout_constraintStart_toStartOf="@+id/layoutCr"
@@ -424,7 +410,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="160dp"
-            android:text="15"
+            android:text="30"
+            android:textSize="13dp"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutCr"
             app:layout_constraintStart_toStartOf="@+id/layoutCr"
@@ -433,7 +420,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="25"
+            android:text="80"
+            android:textSize="13dp"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutCr"
             app:layout_constraintStart_toStartOf="@+id/layoutCr"
@@ -443,7 +431,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="160dp"
-            android:text="50"
+            android:textSize="13dp"
+            android:text="150"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutCr"
             app:layout_constraintStart_toStartOf="@+id/layoutCr"
@@ -452,12 +441,454 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="320dp"
-            android:text="50~"
+            android:layout_marginLeft="300dp"
+            android:text="150~"
+            android:textSize="13dp"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutCr"
             app:layout_constraintStart_toStartOf="@+id/layoutCr"
             app:layout_constraintTop_toBottomOf="@+id/layoutCr" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="260dp"
+            android:text="초미세먼지"
+            android:textColor="#000000"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toTopOf="@+id/layoutCr1"
+            app:layout_constraintEnd_toEndOf="@id/layoutCr1"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr1" />
+
+        <LinearLayout
+            android:id="@+id/layoutCr1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#00BFFF"
+                android:gravity="center"
+                android:text="매우좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#80E12A"
+                android:gravity="center"
+                android:text="좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FFA500"
+                android:gravity="center"
+                android:text="나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FF0000"
+                android:gravity="center"
+                android:text="매우나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="310dp"
+            android:text="0"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="160dp"
+            android:text="15"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="35"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:textSize="13dp"
+            android:text="75"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300dp"
+            android:text="75~"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="230dp"
+            android:text="일산화탄소(CO)"
+            android:textColor="#000000"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toTopOf="@+id/layoutCr2"
+            app:layout_constraintEnd_toEndOf="@id/layoutCr2"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr2" />
+
+        <LinearLayout
+            android:id="@+id/layoutCr2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr1">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#00BFFF"
+                android:gravity="center"
+                android:text="매우좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#80E12A"
+                android:gravity="center"
+                android:text="좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FFA500"
+                android:gravity="center"
+                android:text="나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FF0000"
+                android:gravity="center"
+                android:text="매우나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="310dp"
+            android:text="0"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="160dp"
+            android:text="2.01"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9.01"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:textSize="13dp"
+            android:text="15.01"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300dp"
+            android:text="15~"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="230dp"
+            android:text="이산화탄소(CO2)"
+            android:textColor="#000000"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toTopOf="@+id/layoutCr3"
+            app:layout_constraintEnd_toEndOf="@id/layoutCr3"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr3" />
+
+        <LinearLayout
+            android:id="@+id/layoutCr3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr2">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#00BFFF"
+                android:gravity="center"
+                android:text="매우좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#80E12A"
+                android:gravity="center"
+                android:text="좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FFA500"
+                android:gravity="center"
+                android:text="나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FF0000"
+                android:gravity="center"
+                android:text="매우나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="310dp"
+            android:text="0"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="160dp"
+            android:text="1000"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2000"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:textSize="13dp"
+            android:text="3000"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300dp"
+            android:text="3000~"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="210dp"
+            android:text="포름 알데히드(CH2o)"
+            android:textColor="#000000"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toTopOf="@+id/layoutCr4"
+            app:layout_constraintEnd_toEndOf="@id/layoutCr4"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr4" />
+
+        <LinearLayout
+            android:id="@+id/layoutCr4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr3">
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#00BFFF"
+                android:gravity="center"
+                android:text="매우좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#80E12A"
+                android:gravity="center"
+                android:text="좋음"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FFA500"
+                android:gravity="center"
+                android:text="나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:background="#FF0000"
+                android:gravity="center"
+                android:text="매우나쁨"
+                android:textAlignment="center"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="300dp"
+            android:text="0.01"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="160dp"
+            android:text="0.05"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.08"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:textSize="13dp"
+            android:text="0.25"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300dp"
+            android:text="0.25~"
+            android:textSize="13dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
+            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
+
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -465,7 +896,7 @@
             android:layout_marginRight="220dp"
             android:text="유기성 유해화합물"
             android:textColor="#000000"
-            android:textSize="15dp"
+            android:textSize="13dp"
             app:layout_constraintBottom_toTopOf="@+id/layoutGas"
             app:layout_constraintEnd_toEndOf="@id/layoutGas"
             app:layout_constraintStart_toStartOf="@+id/layoutGas" />
@@ -474,16 +905,16 @@
             android:id="@+id/layoutGas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr">
+            app:layout_constraintTop_toBottomOf="@+id/layoutCr4">
 
             <TextView
                 android:id="@+id/Gas01"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="105dp"
+                android:layout_height="20dp"
                 android:background="#80E12A"
                 android:gravity="center"
                 android:text="안 전"
@@ -492,8 +923,8 @@
 
             <TextView
                 android:id="@+id/Gas02"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="105dp"
+                android:layout_height="20dp"
                 android:background="#FFA500"
                 android:gravity="center"
                 android:text="의  심"
@@ -502,8 +933,8 @@
 
             <TextView
                 android:id="@+id/Gas03"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="105dp"
+                android:layout_height="20dp"
                 android:background="#FF0000"
                 android:gravity="center"
                 android:text="위  험"
@@ -514,7 +945,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="320dp"
+            android:layout_marginRight="310dp"
+            android:textSize="13dp"
             android:text="0"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutGas"
@@ -524,7 +956,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="110dp"
+            android:layout_marginRight="100dp"
+            android:textSize="13dp"
             android:text="1000"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutGas"
@@ -534,7 +967,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="110dp"
+            android:layout_marginLeft="100dp"
+            android:textSize="13dp"
             android:text="2000"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutGas"
@@ -545,6 +979,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="300dp"
+            android:textSize="13dp"
             android:text="3000~"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutGas"
@@ -554,10 +989,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="280dp"
+            android:layout_marginRight="270dp"
             android:text="화재감시"
             android:textColor="#000000"
-            android:textSize="15dp"
+            android:textSize="13dp"
             app:layout_constraintBottom_toTopOf="@+id/layoutFire"
             app:layout_constraintEnd_toEndOf="@id/layoutFire"
             app:layout_constraintStart_toStartOf="@+id/layoutFire" />
@@ -566,7 +1001,7 @@
             android:id="@+id/layoutFire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -574,8 +1009,8 @@
 
             <TextView
                 android:id="@+id/Fire01"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="105dp"
+                android:layout_height="20dp"
                 android:background="#80E12A"
                 android:gravity="center"
                 android:text="안 전"
@@ -584,8 +1019,8 @@
 
             <TextView
                 android:id="@+id/Fire02"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="105dp"
+                android:layout_height="20dp"
                 android:background="#FFA500"
                 android:gravity="center"
                 android:text="의  심"
@@ -594,8 +1029,8 @@
 
             <TextView
                 android:id="@+id/Fire03"
-                android:layout_width="110dp"
-                android:layout_height="25dp"
+                android:layout_width="105dp"
+                android:layout_height="20dp"
                 android:background="#FF0000"
                 android:gravity="center"
                 android:text="발  생"
@@ -606,7 +1041,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="320dp"
+            android:layout_marginRight="310dp"
+            android:textSize="13dp"
             android:text="0"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutFire"
@@ -616,7 +1052,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="110dp"
+            android:layout_marginRight="100dp"
+            android:textSize="13dp"
             android:text="1000"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutFire"
@@ -626,7 +1063,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="110dp"
+            android:layout_marginLeft="100dp"
+            android:textSize="13dp"
             android:text="2000"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutFire"
@@ -637,36 +1075,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="300dp"
+            android:textSize="13dp"
             android:text="3000~"
             android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="@+id/layoutFire"
             app:layout_constraintStart_toStartOf="@+id/layoutFire"
             app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/navigationLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/mainBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/home"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
-                    app:layout_constraintEnd_toStartOf="@id/mainSet"
-                    app:layout_constraintStart_toStartOf="@id/navigationLayout"/>
-                <Button
-                    android:id="@+id/mainSet"
-                    android:layout_width="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/setting"
-                    app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/mainBtn"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/mainBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
+            app:layout_constraintEnd_toStartOf="@id/mainSet"
+            app:layout_constraintStart_toStartOf="@id/navigationLayout"
+            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
+
+        <Button
+            android:id="@+id/mainSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/mainBtn"
+            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/navigationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="horizontal">
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

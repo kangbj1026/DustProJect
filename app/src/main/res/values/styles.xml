@@ -10,5 +10,10 @@
     <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
     </style>
-
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">#CD0000</item>
+    </style>
+    <style name="SmallIcon" parent="@android:style/Theme.Dialog">
+        <item name="android:textSize">30dp</item>
+    </style>
 </resources>

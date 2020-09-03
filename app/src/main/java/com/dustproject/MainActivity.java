@@ -2,11 +2,17 @@ package com.dustproject;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
@@ -31,6 +37,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout mainImage;
     private SwipeRefreshLayout swipeLayout;
     private Button mainBtn;
-
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         },100);
-
     }
     @Override
     public void onBackPressed() {
@@ -269,14 +274,36 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+    @SuppressLint("WrongConstant")
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showResult(){
         final Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         final ImageView image = new ImageView(this);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(image);
         final AlertDialog dialog = builder.create();
+        NotificationCompat.Builder notCB = null;
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("ch1","ch01",NotificationManager.IMPORTANCE_DEFAULT);
+            manager.createNotificationChannel(channel);
+            notCB = new NotificationCompat.Builder(this, "ch1");
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,1,intent,PendingIntent.FLAG_CANCEL_CURRENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        }, 5000);
         String TAG_JSON = "dustData";
         String TAG_HUMI = "humi";
         String TAG_TEMP = "temp";
@@ -290,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONObject jsonObject = new JSONObject(dJsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-            for (int i = 0; i < jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length();i++) {
                 JSONObject item = jsonArray.getJSONObject(i);
                 String humi = item.getString(TAG_HUMI);
                 String temp = item.getString(TAG_TEMP);
@@ -342,15 +369,15 @@ public class MainActivity extends AppCompatActivity {
                 co2AT.notifyDataSetChanged();
                 dustItemAT.notifyDataSetChanged();
 
-                if (dustItem <= 30){
+                if (dustItem <= 30) {
                     mainFigure.setText("안전");
                     mainFigure.setBackgroundColor(Color.parseColor("#03F30D"));
                     imageColor.setImageResource(R.drawable.image_color1);
                     imageChar.setImageResource(R.drawable.ico_dust1);
                     mainImage.setBackgroundResource(R.drawable.bg_step01);
                     colorText.setText("좋음");
-                    Glide.with(this).load(R.raw.char_nstep01).into(charView);
-
+                    colorText.setTextSize(20);
+                    Glide.with(this).load(R.raw.char_step01).into(charView);
                 } else if (dustItem > 30 && dustItem <= 80){
                     mainFigure.setText("안전");
                     mainFigure.setBackgroundColor(Color.parseColor("#288CFF"));
@@ -358,8 +385,8 @@ public class MainActivity extends AppCompatActivity {
                     imageChar.setImageResource(R.drawable.ico_dust2);
                     mainImage.setBackgroundResource(R.drawable.bg_step02);
                     colorText.setText("보통");
+                    colorText.setTextSize(20);
                     Glide.with(this).load(R.raw.char_step02).into(charView);
-
                 } else if (dustItem > 80 && dustItem <= 150){
                     mainFigure.setText("경고");
                     mainFigure.setBackgroundColor(Color.parseColor("#D2691E"));
@@ -367,52 +394,49 @@ public class MainActivity extends AppCompatActivity {
                     imageChar.setImageResource(R.drawable.ico_dust3);
                     mainImage.setBackgroundResource(R.drawable.bg_step03);
                     colorText.setText("나쁨");
+                    colorText.setTextSize(20);
                     Glide.with(this).load(R.raw.char_step03).into(charView);
+                    notCB.setContentTitle("!!!!!!!! 경고 !!!!!!!!!");
+                    notCB.setContentText("나쁜 공기가 있어요! 마스크 꼭 착용하세요! ");
+                    notCB.setSubText("　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
+                    notCB.setSmallIcon(R.drawable.ico_dust3);
+                    notCB.setLargeIcon(Bitmap.createBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ico_dust3)));
+                    notCB.setColor(Color.TRANSPARENT);
+                    notCB.setContentIntent(pendingIntent);
+                    notCB.setAutoCancel(true);
+                    Notification notification = notCB.build();
+                    manager.notify(1,notification);
                     vib.vibrate(new long[]{500,500},-1);
                     image.setImageResource(R.drawable.alert1);
-                    image.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
                     dialog.show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.dismiss();
-                        }
-                    }, 5000);
                 } else if (dustItem > 150) {
                     mainFigure.setText("위험");
                     mainFigure.setBackgroundColor(Color.parseColor("#EB0000"));
                     imageColor.setImageResource(R.drawable.image_color4);
                     imageChar.setImageResource(R.drawable.ico_dust4);
                     mainImage.setBackgroundResource(R.drawable.bg_step04);
-                    colorText.setText("극혐");
+                    colorText.setText("매우\n나쁨");
+                    colorText.setTextSize(15);
                     Glide.with(this).load(R.raw.char_step04).into(charView);
+                    notCB.setContentTitle("!!!!!!!! 위험 !!!!!!!!!");
+                    notCB.setContentText("밖에 외출을 자제해주세요! 비상사태!!! ");
+                    notCB.setSubText("　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
+                    notCB.setSmallIcon(R.drawable.ico_dust4);
+                    notCB.setLargeIcon(Bitmap.createBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ico_dust4)));
+                    notCB.setColor(Color.TRANSPARENT);
+                    notCB.setContentIntent(pendingIntent);
+                    notCB.setAutoCancel(true);
+                    Notification notification = notCB.build();
+                    manager.notify(1,notification);
                     vib.vibrate(new long[]{500,500},-1);
                     image.setImageResource(R.drawable.alert);
-                    image.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
                     dialog.show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            dialog.dismiss();
-                        }
-                    }, 5000);
                 }
             }
         } catch (JSONException e){
             Log.d(TAG,"showResult :",e);
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,

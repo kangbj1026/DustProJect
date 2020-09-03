@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
     <ImageView
         android:launchMode="singleTask"
-        android:background="@drawable/char_step01"
+        android:background="@drawable/alert"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
