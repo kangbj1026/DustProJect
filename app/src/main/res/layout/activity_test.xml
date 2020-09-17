@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipeLayout">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollAll"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:addStatesFromChildren="false"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
+
+            <!--
+            note 상단의 RecyclerView 에는 데이터베이스로부터 가져온 JSON 형식의
+            note 데이터를 파싱해서 항목별로 보여줍니다. 하단의 TextView 에는 JSON 형식의
+            note 데이터 또는 각종 에러를 보여주는 용도로 사용됩니다. -->
+            <Button
+                android:id="@+id/toolbar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:onClick="onButton1Clicked"
+                android:background="@drawable/toolbar_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/slidingPanel"
+                android:layout_width="250dp"
+                android:layout_height="690dp"
+                android:orientation="vertical"
+                android:layout_gravity="right"
+                android:background="#ffffff"
+                android:clickable="true"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/slidingPanel_main"
+                    android:background="@drawable/sliding_panel_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"/>
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width ="100dp"
+                    android:layout_height ="50dp"
+                    android:showText="true"
+                    android:text = " 알림  :"
+                    android:checked = "true"
+                    android:textOff = ""
+                    android:textOn = ""
+                    android:onClick="switch1"
+                    android:layout_gravity="center_horizontal" />
+                <Button
+                    android:id="@+id/btn_01"
+                    android:text="미세리코 공유하기"
+                    android:textSize="15dp"
+                    android:textColor="#1e7575"
+                    android:background="#00ff0000"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/btn_02"
+                    android:text="미세 정보"
+                    android:textSize="15dp"
+                    android:textColor="#1e7575"
+                    android:background="#00ff0000"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/home_page"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="400dp"
+                    android:background="@drawable/sliding_panel_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"/>
+                <TextView
+                    android:text=" ver 1.0"
+                    android:textColor="#1e7575"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

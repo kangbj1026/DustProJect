@@ -5,7 +5,7 @@ android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="5dp">
     <TextView
-        android:textColor="#0054FF"
+        android:textColor="#ffffff"
         android:textAlignment="center"
         android:textSize="50dp"
         android:id="@+id/dustView"

@@ -5,1111 +5,518 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/swipeLayout">
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/scrollAll"
-    android:fillViewport="true">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:paddingTop="5dp"
-        android:id="@+id/mainImage"
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:addStatesFromChildren="false"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
-        <!--
-        note 상단의 RecyclerView 에는 데이터베이스로부터 가져온 JSON 형식의
-        note 데이터를 파싱해서 항목별로 보여줍니다. 하단의 TextView 에는 JSON 형식의
-        note 데이터 또는 각종 에러를 보여주는 용도로 사용됩니다. -->
-        <TextView
-            android:id="@+id/mainText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="100dp"
-            android:gravity="center_horizontal"
-            android:text="화재 및 유독가스 감시중"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <TextView
-            android:id="@+id/mainFigure"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="#F4FFFF"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mainText"
-            app:layout_constraintTop_toTopOf="parent" />
-        <ImageView
-            android:id="@+id/charView"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="150dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <ImageView
-            android:id="@+id/imageColor"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="90dp"
-            app:layout_constraintBottom_toBottomOf="@+id/charView"
-            app:layout_constraintStart_toStartOf="@id/charView" />
+        android:id="@+id/scrollAll"
+        android:fillViewport="true">
 
-        <ImageView
-            android:id="@+id/imageChar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageColor"
-            app:layout_constraintStart_toStartOf="@+id/imageColor" />
-        <TextView
-            android:id="@+id/colorText"
-            android:layout_width="45dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="#F4FFFF"
-            app:layout_constraintBottom_toBottomOf="@+id/imageColor"
-            app:layout_constraintEnd_toEndOf="@+id/imageColor"
-            app:layout_constraintStart_toStartOf="@+id/imageColor"
-            app:layout_constraintTop_toTopOf="@+id/imageColor" />
-        <TextView
-            android:id="@+id/textGeoCoder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/pm10"
-            app:layout_constraintEnd_toEndOf="@+id/pm10"
-            app:layout_constraintStart_toStartOf="@+id/pm10" />
-        <TextView
-            android:id="@+id/pm10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="60dp"
-            android:text="미세먼지 PM10"
-            android:textColor="#000000"
-            android:textSize="21dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/charView"
-            app:layout_constraintTop_toTopOf="parent" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/dustView"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:background="#00ff0000"
-            android:gravity="center_horizontal"
-            android:overScrollMode="never"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/pm10"
-            app:layout_constraintStart_toStartOf="@+id/pm10"
-            app:layout_constraintTop_toBottomOf="@+id/pm10" />
-        <TableRow
-            android:id="@+id/tableRow"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="@+id/mainFigure"
-            app:layout_constraintStart_toStartOf="@+id/mainText"
-            app:layout_constraintTop_toBottomOf="@+id/charView">
-        <TextView
-                android:id="@+id/humiName"
-                android:text="습도"
-                android:layout_width="0dp"
+            android:addStatesFromChildren="false"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
+
+            <!--
+            note 상단의 RecyclerView 에는 데이터베이스로부터 가져온 JSON 형식의
+            note 데이터를 파싱해서 항목별로 보여줍니다. 하단의 TextView 에는 JSON 형식의
+            note 데이터 또는 각종 에러를 보여주는 용도로 사용됩니다. -->
+<!--
+            <android.support.v4.widget.DrawerLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="여기는 메인액티비티입니다."
+                        android:textSize="30dp"
+                        android:textColor="#000"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="280dp"
+                    android:layout_height="match_parent"
+                    android:weightSum="100"
+                    android:layout_gravity="start"
+                    android:background="#e49e9e"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="여기는 슬라이딩 메뉴입니다~"
+                        android:textColor="#000"/>
+                </LinearLayout>
+            </android.support.v4.widget.DrawerLayout>
+-->
+            <Button
+                android:id="@+id/toolbar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:onClick="onButton1Clicked"
+                android:background="@drawable/toolbar_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/text_image1"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_text"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/mainFigure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textAlignment="center"
+                android:textColor="#F4FFFF"
+                android:layout_marginRight="10dp"
+                android:textSize="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/main_figure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/main_figure"
+                app:layout_constraintTop_toBottomOf="@id/text_image1"
+                app:layout_constraintEnd_toEndOf="@id/text_image1"
+                app:layout_constraintStart_toStartOf="@id/text_image1"/>
+            <ImageView
+                android:id="@+id/charView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_weight="1"
-                android:textColor="#0064FF"
-                android:textSize="16dp"
-                android:textAlignment="center"
-                android:gravity="center_horizontal"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_figure" />
+
+            <ImageView
+                android:id="@+id/text_image2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="@id/charView"
+                app:layout_constraintStart_toStartOf="@+id/charView"
+                app:layout_constraintTop_toBottomOf="@+id/charView" />
+
+            <TextView
+                android:id="@+id/pm10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="미세먼지 PM10"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/text_image2"
+                app:layout_constraintStart_toStartOf="@+id/text_image2"
+                app:layout_constraintTop_toBottomOf="@+id/text_image2" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/humi"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
-                android:textColor="#0064FF"
-                android:textSize="18dp"
-                android:layout_marginRight="10dp" />
-        <TextView
-                android:id="@+id/tempName"
-                android:text="온도"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dustView"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:background="#00ff0000"
+                android:gravity="center_horizontal"
+                android:overScrollMode="never"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="@+id/pm10"
+                app:layout_constraintStart_toStartOf="@+id/pm10"
+                app:layout_constraintTop_toBottomOf="@+id/pm10" />
+
+            <ImageView
+                android:id="@+id/text_image3"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bar"
+                app:layout_constraintEnd_toEndOf="@+id/dustView"
+                app:layout_constraintStart_toStartOf="@+id/dustView"
+                app:layout_constraintTop_toBottomOf="@+id/dustView" />
+
+            <ImageView
+                android:id="@+id/background1"
+                android:layout_width="wrap_content"
+                android:layout_height="780dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/background_up"
+                app:layout_constraintEnd_toEndOf="@+id/text_image3"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="@+id/text_image3"
+                app:layout_constraintTop_toBottomOf="@+id/text_image3" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="200dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/numerical_table"
+                app:layout_constraintTop_toTopOf="@+id/background1"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1" />
+
+            <ImageView
+                android:id="@+id/temp_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/temp"
+                app:layout_constraintStart_toStartOf="@+id/dustmin_table"
+                app:layout_constraintTop_toTopOf="@+id/background1" />
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/temp"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp" />
-        <TextView
-                android:id="@+id/tvocName"
-                android:text="TVOC"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1.2"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tvoc"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp"
-            android:layout_marginRight="10dp"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/mainFigure"
-            app:layout_constraintStart_toStartOf="@+id/mainText"
-            app:layout_constraintTop_toBottomOf="@+id/tableRow">
-        <TextView
-            android:id="@+id/dustName"
-            android:text="PM10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dust"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp"
-            android:layout_marginRight="10dp" />
-        <TextView
-            android:id="@+id/dustminName"
-            android:text="PM2.5"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/dustmin"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp" />
-        <TextView
-                android:id="@+id/pm1Name"
-            android:text="PM1.0"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1.2"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/temp_image"
+                app:layout_constraintStart_toStartOf="@+id/temp_image"/>
+
+            <ImageView
+                android:id="@+id/humi_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/humi"
+                app:layout_constraintEnd_toStartOf="@id/pm1.0_image"
+                app:layout_constraintStart_toEndOf="@+id/temp_image"
+                app:layout_constraintTop_toTopOf="@+id/background1" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/humi"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/humi_image"
+                app:layout_constraintStart_toStartOf="@+id/humi_image" />
+            <ImageView
+                android:id="@+id/pm1.0_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/pm1_0"
+                app:layout_constraintEnd_toEndOf="@+id/dustmin_table"
+                app:layout_constraintStart_toEndOf="@+id/humi_image"
+                app:layout_constraintTop_toTopOf="@+id/background1" />
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/pm1"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp"
-            android:layout_marginRight="10dp"/>
-        </TableRow>
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@+id/mainFigure"
-            app:layout_constraintStart_toStartOf="@+id/mainText"
-            app:layout_constraintTop_toBottomOf="@+id/tableRow1">
-        <TextView
-                android:id="@+id/coName"
-            android:text="Co"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/pm1.0_image"
+                app:layout_constraintStart_toStartOf="@+id/pm1.0_image"/>
+
+<!--
+            <ImageView
+                android:id="@+id/dust_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:background="@drawable/dust_figure"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toTopOf="@+id/background1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pm10"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/dust_table"
+                app:layout_constraintTop_toTopOf="@+id/dust_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dust"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/dust_table"
+                app:layout_constraintEnd_toEndOf="@+id/dust_table"
+                app:layout_constraintTop_toTopOf="@+id/dust_table" />
+-->
+            <ImageView
+                android:id="@+id/dustmin_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="130dp"
+                android:background="@drawable/dustmin_figure1"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toTopOf="@+id/background1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pm2_5"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/dustmin_table"
+                app:layout_constraintTop_toTopOf="@+id/dustmin_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dustmin"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/dustmin_table"
+                app:layout_constraintEnd_toEndOf="@+id/dustmin_table"
+                app:layout_constraintTop_toTopOf="@+id/dustmin_table" />
+            <ImageView
+                android:id="@+id/co_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/co_figure1"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toBottomOf="@+id/dustmin" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/co"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/co_table"
+                app:layout_constraintTop_toTopOf="@+id/co_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/co"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp"
-            android:layout_marginRight="10dp" />
-        <TextView
-                android:id="@+id/ch2oName"
-            android:text="CH2o"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ch2o"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp" />
-        <TextView
-                android:id="@+id/co2Name"
-            android:text="CO2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1.2"
-            android:textColor="#0064FF"
-            android:textSize="15dp"
-            android:textAlignment="center"
-            android:gravity="center_horizontal"/>
-        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/co_table"
+                app:layout_constraintEnd_toEndOf="@+id/co_table"
+                app:layout_constraintTop_toTopOf="@+id/co_table" />
+
+            <ImageView
+                android:id="@+id/co2_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/co2_figure"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toBottomOf="@+id/co" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/co2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/co2_table"
+                app:layout_constraintTop_toTopOf="@+id/co2_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/co2"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="1"
-            android:textColor="#0064FF"
-            android:textSize="18dp"
-            android:layout_marginRight="10dp"/>
-        </TableRow>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listView_main_list"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:background="#00ff0000"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="@+id/mainFigure"
-            app:layout_constraintStart_toStartOf="@+id/mainText"
-            app:layout_constraintTop_toBottomOf="@+id/charView" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="270dp"
-            android:text="미세먼지"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutCr"
-            app:layout_constraintEnd_toEndOf="@id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr" />
-
-        <LinearLayout
-            android:id="@+id/layoutCr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableRow2">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#00BFFF"
-                android:gravity="center"
-                android:text="매우좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="매우나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="310dp"
-            android:text="0"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="160dp"
-            android:text="30"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="80"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="160dp"
-            android:textSize="13dp"
-            android:text="150"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:text="150~"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="260dp"
-            android:text="초미세먼지"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutCr1"
-            app:layout_constraintEnd_toEndOf="@id/layoutCr1"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr1" />
-
-        <LinearLayout
-            android:id="@+id/layoutCr1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#00BFFF"
-                android:gravity="center"
-                android:text="매우좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="매우나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="310dp"
-            android:text="0"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="160dp"
-            android:text="15"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="35"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="160dp"
-            android:textSize="13dp"
-            android:text="75"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:text="75~"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr1"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr1"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="230dp"
-            android:text="일산화탄소(CO)"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutCr2"
-            app:layout_constraintEnd_toEndOf="@id/layoutCr2"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr2" />
-
-        <LinearLayout
-            android:id="@+id/layoutCr2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr1">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#00BFFF"
-                android:gravity="center"
-                android:text="매우좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="매우나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="310dp"
-            android:text="0"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="160dp"
-            android:text="2.01"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9.01"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="160dp"
-            android:textSize="13dp"
-            android:text="15.01"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:text="15~"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr2"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr2"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr2" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="230dp"
-            android:text="이산화탄소(CO2)"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutCr3"
-            app:layout_constraintEnd_toEndOf="@id/layoutCr3"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr3" />
-
-        <LinearLayout
-            android:id="@+id/layoutCr3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr2">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#00BFFF"
-                android:gravity="center"
-                android:text="매우좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="매우나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="310dp"
-            android:text="0"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="160dp"
-            android:text="1000"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2000"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="160dp"
-            android:textSize="13dp"
-            android:text="3000"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:text="3000~"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr3"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr3"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr3" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="210dp"
-            android:text="포름 알데히드(CH2o)"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutCr4"
-            app:layout_constraintEnd_toEndOf="@id/layoutCr4"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr4" />
-
-        <LinearLayout
-            android:id="@+id/layoutCr4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr3">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#00BFFF"
-                android:gravity="center"
-                android:text="매우좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="좋음"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="매우나쁨"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="300dp"
-            android:text="0.01"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="160dp"
-            android:text="0.05"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0.08"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="160dp"
-            android:textSize="13dp"
-            android:text="0.25"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:text="0.25~"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutCr4"
-            app:layout_constraintStart_toStartOf="@+id/layoutCr4"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr4" />
-
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="220dp"
-            android:text="유기성 유해화합물"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutGas"
-            app:layout_constraintEnd_toEndOf="@id/layoutGas"
-            app:layout_constraintStart_toStartOf="@+id/layoutGas" />
-
-        <LinearLayout
-            android:id="@+id/layoutGas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutCr4">
-
-            <TextView
-                android:id="@+id/Gas01"
-                android:layout_width="105dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="안 전"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/Gas02"
-                android:layout_width="105dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="의  심"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/Gas03"
-                android:layout_width="105dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="위  험"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="310dp"
-            android:textSize="13dp"
-            android:text="0"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutGas"
-            app:layout_constraintStart_toStartOf="@+id/layoutGas"
-            app:layout_constraintTop_toBottomOf="@+id/layoutGas" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="100dp"
-            android:textSize="13dp"
-            android:text="1000"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutGas"
-            app:layout_constraintStart_toStartOf="@+id/layoutGas"
-            app:layout_constraintTop_toBottomOf="@+id/layoutGas" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:textSize="13dp"
-            android:text="2000"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutGas"
-            app:layout_constraintStart_toStartOf="@+id/layoutGas"
-            app:layout_constraintTop_toBottomOf="@+id/layoutGas" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:textSize="13dp"
-            android:text="3000~"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutGas"
-            app:layout_constraintStart_toStartOf="@+id/layoutGas"
-            app:layout_constraintTop_toBottomOf="@+id/layoutGas" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="270dp"
-            android:text="화재감시"
-            android:textColor="#000000"
-            android:textSize="13dp"
-            app:layout_constraintBottom_toTopOf="@+id/layoutFire"
-            app:layout_constraintEnd_toEndOf="@id/layoutFire"
-            app:layout_constraintStart_toStartOf="@+id/layoutFire" />
-
-        <LinearLayout
-            android:id="@+id/layoutFire"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutGas">
-
-            <TextView
-                android:id="@+id/Fire01"
-                android:layout_width="105dp"
-                android:layout_height="20dp"
-                android:background="#80E12A"
-                android:gravity="center"
-                android:text="안 전"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/Fire02"
-                android:layout_width="105dp"
-                android:layout_height="20dp"
-                android:background="#FFA500"
-                android:gravity="center"
-                android:text="의  심"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/Fire03"
-                android:layout_width="105dp"
-                android:layout_height="20dp"
-                android:background="#FF0000"
-                android:gravity="center"
-                android:text="발  생"
-                android:textAlignment="center"
-                android:textSize="15dp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="310dp"
-            android:textSize="13dp"
-            android:text="0"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutFire"
-            app:layout_constraintStart_toStartOf="@+id/layoutFire"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="100dp"
-            android:textSize="13dp"
-            android:text="1000"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutFire"
-            app:layout_constraintStart_toStartOf="@+id/layoutFire"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:textSize="13dp"
-            android:text="2000"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutFire"
-            app:layout_constraintStart_toStartOf="@+id/layoutFire"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="300dp"
-            android:textSize="13dp"
-            android:text="3000~"
-            android:textColor="#000000"
-            app:layout_constraintEnd_toEndOf="@+id/layoutFire"
-            app:layout_constraintStart_toStartOf="@+id/layoutFire"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-
-        <Button
-            android:id="@+id/mainBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/home"
-            android:gravity="center_horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
-            app:layout_constraintEnd_toStartOf="@id/mainSet"
-            app:layout_constraintStart_toStartOf="@id/navigationLayout"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-
-        <Button
-            android:id="@+id/mainSet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/setting"
-            android:gravity="center_horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/navigationLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/mainBtn"
-            app:layout_constraintTop_toBottomOf="@+id/layoutFire" />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/navigationLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/co2_table"
+                app:layout_constraintEnd_toEndOf="@+id/co2_table"
+                app:layout_constraintTop_toTopOf="@+id/co2_table" />
+
+            <ImageView
+                android:id="@+id/ch2o_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/ch2o_figure"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toBottomOf="@+id/co2" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ch2o"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/ch2o_table"
+                app:layout_constraintTop_toTopOf="@+id/ch2o_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ch2o"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ch2o_table"
+                app:layout_constraintEnd_toEndOf="@+id/ch2o_table"
+                app:layout_constraintTop_toTopOf="@+id/ch2o_table" />
+
+            <ImageView
+                android:id="@+id/tvoc_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/tvoc_figure"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toBottomOf="@+id/ch2o" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tvoc1"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/tvoc_table"
+                app:layout_constraintTop_toTopOf="@+id/tvoc_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tvoc"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvoc_table"
+                app:layout_constraintEnd_toEndOf="@+id/tvoc_table"
+                app:layout_constraintTop_toTopOf="@+id/tvoc_table" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/danger_text1"
+                app:layout_constraintBottom_toTopOf="@id/danger_table"
+                app:layout_constraintStart_toStartOf="@id/danger_table"
+                />
+            <ImageView
+                android:id="@+id/danger_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:background="@drawable/danger_figure"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toBottomOf="@+id/tvoc" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/danger_text3"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/danger_table"
+                app:layout_constraintTop_toTopOf="@+id/danger_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/danger"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/danger_table"
+                app:layout_constraintEnd_toEndOf="@+id/danger_table"
+                app:layout_constraintTop_toTopOf="@+id/danger_table" />
+            <ImageView
+                android:id="@+id/danger1_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/danger_figure"
+                app:layout_constraintEnd_toEndOf="@+id/background1"
+                app:layout_constraintStart_toStartOf="@+id/background1"
+                app:layout_constraintTop_toBottomOf="@+id/danger" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/danger_text4"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@+id/danger1_table"
+                app:layout_constraintTop_toTopOf="@+id/danger1_table" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/danger1"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/danger1_table"
+                app:layout_constraintEnd_toEndOf="@+id/danger1_table"
+                app:layout_constraintTop_toTopOf="@+id/danger1_table" />
+            <LinearLayout
+                android:id="@+id/slidingPanel"
+                android:layout_width="250dp"
+                android:layout_height="690dp"
+                android:orientation="vertical"
+                android:layout_gravity="right"
+                android:background="#ffffff"
+                android:clickable="true"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/slidingPanel_main"
+                    android:background="@drawable/sliding_panel_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"/>
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width ="100dp"
+                    android:layout_height ="50dp"
+                    android:showText="true"
+                    android:text = " 알림  :"
+                    android:checked = "true"
+                    android:textOff = ""
+                    android:textOn = ""
+                    android:onClick="switch1"
+                    android:layout_gravity="center_horizontal" />
+                <Button
+                    android:id="@+id/btn_01"
+                    android:text="미세리코 공유하기"
+                    android:textSize="15dp"
+                    android:textColor="#1e7575"
+                    android:background="#00ff0000"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:id="@+id/btn_02"
+                    android:text="미세 정보"
+                    android:textSize="15dp"
+                    android:textColor="#1e7575"
+                    android:background="#00ff0000"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/home_page"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="400dp"
+                    android:background="@drawable/sliding_panel_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"/>
+                <TextView
+                    android:text=" ver 1.0"
+                    android:textColor="#1e7575"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

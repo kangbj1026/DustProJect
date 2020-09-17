@@ -1,49 +1,44 @@
 package com.dustproject;
-
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bumptech.glide.Glide;
 import com.dustproject.Dusts.Ch2oItemAdapter;
 import com.dustproject.Dusts.Co2ItemAdapter;
 import com.dustproject.Dusts.CoItemAdapter;
@@ -61,27 +56,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
     final Handler dHandler = new Handler();
+    final Intent Alarm_intent = new Intent();
 
     private static String IP_ADDRESS = "211.206.115.62:81"; // 192.168.0.3 / 192.168.1.30 / 10.0.2.2 / 172.18.54.145 / 118.219.45.172
     private static String TAG = "PHP";
-    private GpsTracker gpsTracker;
-    private static final int GPS_ENABLE_REQUEST_CODE = 2020;
-    private static final int PERMISSIONS_REQUEST_CODE = 100;
-    String[] REQUIRED_PERMISSIONS  = { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION };
-    private RecyclerView dRecyclerView;
-    private RecyclerView humiRV,tempRV,tvocRV,dustRV,dustminRV,pm1RV,coRV,ch2oRV,co2RV,dustItemRV;
+    private RecyclerView humiRV,tempRV,tvocRV,dustminRV,pm1RV,coRV,ch2oRV,co2RV,dustItemRV,dustRV;
     private ArrayList<DustData> dAL,humiAL,tempAL,tvocAL,dustAL,dustminAL,pm1AL,coAL,ch2oAL,co2AL,dustItemAL;
     private DustsAdapter dAT;
     private HumiItemAdapter humiAT;
@@ -95,29 +83,37 @@ public class MainActivity extends AppCompatActivity {
     private Co2ItemAdapter co2AT;
     private DustItemAdapter dustItemAT;
     private String dJsonString;
-    private ImageView charView,imageColor,imageChar;
-    private TextView mainFigure,colorText;
+    private ImageView charView,imageText,homePage;
+    private TextView mainFigure;
     private ConstraintLayout mainImage;
     private SwipeRefreshLayout swipeLayout;
-    private Button mainBtn;
+    private Button toolbar_btn,btn_01,btn_02;
+    private Animation translateLeftAnim,translateRightAnim;
+    private LinearLayout slidingPanel;
+    private Switch alarmSwitch;
+    boolean isPageOpen = false;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         // note view 보여주기 위한 코드
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        dRecyclerView = findViewById(R.id.listView_main_list);
-        humiRV = findViewById(R.id.humi);tempRV = findViewById(R.id.temp);tvocRV = findViewById(R.id.tvoc);dustRV = findViewById(R.id.dust);
+        humiRV = findViewById(R.id.humi);tempRV = findViewById(R.id.temp);tvocRV = findViewById(R.id.tvoc);/*dustRV = findViewById(R.id.dust);*/
         dustminRV = findViewById(R.id.dustmin);pm1RV = findViewById(R.id.pm1);coRV = findViewById(R.id.co);ch2oRV = findViewById(R.id.ch2o);
         co2RV = findViewById(R.id.co2);dustItemRV = findViewById(R.id.dustView);mainImage = findViewById(R.id.mainImage);charView = findViewById(R.id.charView);
-        mainFigure = findViewById(R.id.mainFigure);imageColor = findViewById(R.id.imageColor);imageChar = findViewById(R.id.imageChar);
-        colorText = findViewById(R.id.colorText);swipeLayout = findViewById(R.id.swipeLayout);
+        mainFigure = findViewById(R.id.mainFigure);swipeLayout = findViewById(R.id.swipeLayout);imageText = findViewById(R.id.text_image2);
+        toolbar_btn = findViewById(R.id.toolbar_btn);slidingPanel = findViewById(R.id.slidingPanel);homePage = findViewById(R.id.home_page);
+        btn_01 = findViewById(R.id.btn_01);btn_02 = findViewById(R.id.btn_02);
+        alarmSwitch = findViewById(R.id.switch1);
+        translateLeftAnim = AnimationUtils.loadAnimation(this,R.anim.translate_left);
+        translateRightAnim = AnimationUtils.loadAnimation(this,R.anim.translate_right);
+        final SlidingPageAnimationListener animListener = new SlidingPageAnimationListener();
+        translateLeftAnim.setAnimationListener(animListener);translateRightAnim.setAnimationListener(animListener);
         // note LayoutManager() 함수로 생성자 추가
-        dRecyclerView.setLayoutManager(new LinearLayoutManager(this));humiRV.setLayoutManager(new LinearLayoutManager(this));
+        humiRV.setLayoutManager(new LinearLayoutManager(this));
         tempRV.setLayoutManager(new LinearLayoutManager(this));tvocRV.setLayoutManager(new LinearLayoutManager(this));
-        dustRV.setLayoutManager(new LinearLayoutManager(this));dustminRV.setLayoutManager(new LinearLayoutManager(this));
+        /*dustRV.setLayoutManager(new LinearLayoutManager(this));*/dustminRV.setLayoutManager(new LinearLayoutManager(this));
         pm1RV.setLayoutManager(new LinearLayoutManager(this));coRV.setLayoutManager(new LinearLayoutManager(this));
         ch2oRV.setLayoutManager(new LinearLayoutManager(this));co2RV.setLayoutManager(new LinearLayoutManager(this));
         dustItemRV.setLayoutManager(new LinearLayoutManager(this));
@@ -131,61 +127,110 @@ public class MainActivity extends AppCompatActivity {
         pm1AT = new Pm1ItemAdapter(this, pm1AL);coAT = new CoItemAdapter(this, coAL);ch2oAT = new Ch2oItemAdapter(this, ch2oAL);
         co2AT = new Co2ItemAdapter(this, coAL);dustItemAT = new DustItemAdapter(this, dustItemAL);
         // note dRecyclerView dAT 변수 불러오는 코드
-        dRecyclerView.setAdapter(dAT);humiRV.setAdapter(humiAT);tempRV.setAdapter(tempAT);tvocRV.setAdapter(tvocAT);dustRV.setAdapter(dustAT);dustminRV.setAdapter(dustminAT);
+        humiRV.setAdapter(humiAT);tempRV.setAdapter(tempAT);tvocRV.setAdapter(tvocAT);/*dustRV.setAdapter(dustAT)*/;dustminRV.setAdapter(dustminAT);
         pm1RV.setAdapter(pm1AT);coRV.setAdapter(coAT);ch2oRV.setAdapter(ch2oAT);co2RV.setAdapter(co2AT);dustItemRV.setAdapter(dustItemAT);
-        final GetData data = new GetData();
-        data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
-
-        if (!checkLocationServicesStatus()) {
-            showDialogForLocationServiceSetting();
-        } else { checkRunTimePermission(); }
-
-        gpsTracker = new GpsTracker(MainActivity.this);
-        final double latitude = gpsTracker.getLatitude();
-        final double longitude = gpsTracker.getLongitude();
-        final TextView textView_address = findViewById(R.id.textGeoCoder);
-        String address = getCurrentAddress(latitude, longitude);
-        textView_address.setText(address);
-
-        mainBtn = findViewById(R.id.mainSet);
-        mainBtn.setOnClickListener(new View.OnClickListener() {
+        data_clear();
+        toolbar_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SetActivity.class);
-                startActivity(intent);
-                overridePendingTransition(0,0);
+            public void onClick(View v) {
+                if(isPageOpen){
+                    slidingPanel.startAnimation(translateRightAnim);
+                    slidingPanel.setVisibility(View.GONE);
+                } else {
+                    slidingPanel.startAnimation(translateLeftAnim);
+                    slidingPanel.setVisibility(View.VISIBLE);
+                }
             }
         });
-
+        btn_01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent Sharing_intent = new Intent(Intent.ACTION_SEND);
+                Sharing_intent.setType("text/plain");
+                String Test_Message = "미세리코 어플 다운링크 :\n http://irico.co.kr ";
+                Sharing_intent.putExtra(Intent.EXTRA_TEXT, Test_Message); Intent Sharing = Intent.createChooser(Sharing_intent, "공유하기");
+                startActivity(Sharing);
+            }
+        });
+        btn_02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent Information_intent = new Intent(getApplicationContext(),TestActivity.class);
+                startActivity(Information_intent);
+            }
+        });
+        homePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "http://irico.co.kr";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 swipeLayout.setRefreshing(false);
-                dAL.clear();humiAL.clear();tempAL.clear();tvocAL.clear();dustAL.clear();dustminAL.clear();
-                pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
-                GetData data = new GetData();
-                data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
-/*                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();*/
-                String address = getCurrentAddress(latitude, longitude);
-                textView_address.setText(address);
+                data_clear();
             }
         });
         dHandler.postDelayed(new Runnable()  {
             public void run() {
-                if(true){
-                    dHandler.postDelayed(this,15000);
-                    dAL.clear();humiAL.clear();tempAL.clear();tvocAL.clear();dustAL.clear();dustminAL.clear();
-                    pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
-                    GetData data = new GetData();
-                    data.execute("http://"+IP_ADDRESS+"/GetJSON.php","");
-/*                    double latitude = gpsTracker.getLatitude();
-                    double longitude = gpsTracker.getLongitude();*/
-                    String address = getCurrentAddress(latitude, longitude);
-                    textView_address.setText(address);
-                }
+                dHandler.postDelayed(this,15000);
+                data_clear();
             }
         },100);
+        final AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        final Calendar targetCal = Calendar.getInstance();
+        final PendingIntent sender = PendingIntent.getBroadcast(this,1,Alarm_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (!isChecked){
+                            alarmManager.cancel(sender);
+                            sender.cancel();
+                            Toast.makeText(MainActivity.this, "알림감추기", Toast.LENGTH_SHORT).show();
+                        } else {
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,targetCal.getTimeInMillis(),sender);
+                            Toast.makeText(MainActivity.this, "알림띄우기", Toast.LENGTH_SHORT).show();
+                            // offAlarm(null);
+                        }
+                    }
+                });
+            }
+        });
+    }
+    private class SlidingPageAnimationListener implements Animation.AnimationListener {
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            if(isPageOpen){
+                slidingPanel.setVisibility(View.INVISIBLE);
+                toolbar_btn.setBackgroundResource(R.drawable.toolbar_button);
+                toolbar_btn.setHeight(50);
+                isPageOpen = false;
+            } else {
+                toolbar_btn.setBackgroundResource(R.drawable.toolbar_button1);
+                toolbar_btn.setHeight(1500);
+                isPageOpen = true;
+            }
+        }
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+    }
+    public void data_clear(){
+        dAL.clear();humiAL.clear();tempAL.clear();tvocAL.clear();dustAL.clear();dustminAL.clear();
+        pm1AL.clear();coAL.clear();ch2oAL.clear();co2AL.clear();dustItemAL.clear();
+        GetData data = new GetData();
+        data.execute("http://" + IP_ADDRESS + "/GetJSON.php","");
     }
     @Override
     public void onBackPressed() {
@@ -210,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, " 백그라운드 작업이 완료 된 후 결과값을 얻었어요. - " + result);
 
             if(result == null){
-                Log.d(TAG, "edgsfgha r reg ARE G");
+                Log.d(TAG, "r reg ARE G");
             } else {
                 dJsonString = result;
                 showResult();
@@ -274,28 +319,33 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    @SuppressLint("WrongConstant")
+    public void vib(){
+        final Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        vib.vibrate(new long[]{500,500},-1);
+        vib.cancel();
+    }
+    @SuppressLint({"WrongConstant", "RestrictedApi"})
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showResult(){
-        final Vibrator vib = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-        final ImageView image = new ImageView(this);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(image);
+        ImageView image = new ImageView(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(image);
         final AlertDialog dialog = builder.create();
-        NotificationCompat.Builder notCB = null;
+        NotificationCompat.Builder notCB;
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("ch1","ch01",NotificationManager.IMPORTANCE_DEFAULT);
-            manager.createNotificationChannel(channel);
-            notCB = new NotificationCompat.Builder(this, "ch1");
-        }
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,1,intent,PendingIntent.FLAG_CANCEL_CURRENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
+        NotificationChannel channel = new NotificationChannel("ch1","ch01",NotificationManager.IMPORTANCE_DEFAULT);
+        manager.createNotificationChannel(channel);
+        notCB = new NotificationCompat.Builder(this,"ch1");
+        notCB.setSubText("　　　　　　　　　　　　　　　");
+        notCB.setColor(Color.TRANSPARENT);
+        notCB.setSmallIcon(R.drawable.icon);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,1,Alarm_intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        notCB.setContentIntent(pendingIntent);
+        notCB.setAutoCancel(true);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.cancel();
-
             }
         });
         new Handler().postDelayed(new Runnable() {
@@ -303,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 dialog.dismiss();
             }
-        }, 5000);
+        }, 15000);
         String TAG_JSON = "dustData";
         String TAG_HUMI = "humi";
         String TAG_TEMP = "temp";
@@ -370,206 +420,34 @@ public class MainActivity extends AppCompatActivity {
                 dustItemAT.notifyDataSetChanged();
 
                 if (dustItem <= 30) {
-                    mainFigure.setText("안전");
-                    mainFigure.setBackgroundColor(Color.parseColor("#03F30D"));
-                    imageColor.setImageResource(R.drawable.image_color1);
-                    imageChar.setImageResource(R.drawable.ico_dust1);
-                    mainImage.setBackgroundResource(R.drawable.bg_step01);
-                    colorText.setText("좋음");
-                    colorText.setTextSize(20);
-                    Glide.with(this).load(R.raw.char_step01).into(charView);
+                    mainFigure.setBackgroundResource(R.drawable.safety);mainImage.setBackgroundResource(R.drawable.background1);
+                    charView.setBackgroundResource(R.drawable.good);imageText.setBackgroundResource(R.drawable.text1);
+                    // Glide.with(this).load(R.raw.char_step01).into(charView);
                 } else if (dustItem > 30 && dustItem <= 80){
-                    mainFigure.setText("안전");
-                    mainFigure.setBackgroundColor(Color.parseColor("#288CFF"));
-                    imageColor.setImageResource(R.drawable.image_color2);
-                    imageChar.setImageResource(R.drawable.ico_dust2);
-                    mainImage.setBackgroundResource(R.drawable.bg_step02);
-                    colorText.setText("보통");
-                    colorText.setTextSize(20);
-                    Glide.with(this).load(R.raw.char_step02).into(charView);
+                    mainFigure.setBackgroundResource(R.drawable.safety);mainImage.setBackgroundResource(R.drawable.background2);
+                    charView.setBackgroundResource(R.drawable.ordinary);imageText.setBackgroundResource(R.drawable.text2);
                 } else if (dustItem > 80 && dustItem <= 150){
-                    mainFigure.setText("경고");
-                    mainFigure.setBackgroundColor(Color.parseColor("#D2691E"));
-                    imageColor.setImageResource(R.drawable.image_color3);
-                    imageChar.setImageResource(R.drawable.ico_dust3);
-                    mainImage.setBackgroundResource(R.drawable.bg_step03);
-                    colorText.setText("나쁨");
-                    colorText.setTextSize(20);
-                    Glide.with(this).load(R.raw.char_step03).into(charView);
+                    mainFigure.setBackgroundResource(R.drawable.warning);mainImage.setBackgroundResource(R.drawable.background3);
+                    charView.setBackgroundResource(R.drawable.bad);imageText.setBackgroundResource(R.drawable.text3);
                     notCB.setContentTitle("!!!!!!!! 경고 !!!!!!!!!");
                     notCB.setContentText("나쁜 공기가 있어요! 마스크 꼭 착용하세요! ");
-                    notCB.setSubText("　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
-                    notCB.setSmallIcon(R.drawable.ico_dust3);
                     notCB.setLargeIcon(Bitmap.createBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ico_dust3)));
-                    notCB.setColor(Color.TRANSPARENT);
-                    notCB.setContentIntent(pendingIntent);
-                    notCB.setAutoCancel(true);
+                    image.setImageResource(R.drawable.alert2);
                     Notification notification = notCB.build();
-                    manager.notify(1,notification);
-                    vib.vibrate(new long[]{500,500},-1);
-                    image.setImageResource(R.drawable.alert1);
-                    dialog.show();
+                    manager.notify(1,notification);vib();dialog.show();
                 } else if (dustItem > 150) {
-                    mainFigure.setText("위험");
-                    mainFigure.setBackgroundColor(Color.parseColor("#EB0000"));
-                    imageColor.setImageResource(R.drawable.image_color4);
-                    imageChar.setImageResource(R.drawable.ico_dust4);
-                    mainImage.setBackgroundResource(R.drawable.bg_step04);
-                    colorText.setText("매우\n나쁨");
-                    colorText.setTextSize(15);
-                    Glide.with(this).load(R.raw.char_step04).into(charView);
+                    mainFigure.setBackgroundResource(R.drawable.danger);mainImage.setBackgroundResource(R.drawable.background4);
+                    charView.setBackgroundResource(R.drawable.very_bad);imageText.setBackgroundResource(R.drawable.text4);
                     notCB.setContentTitle("!!!!!!!! 위험 !!!!!!!!!");
                     notCB.setContentText("밖에 외출을 자제해주세요! 비상사태!!! ");
-                    notCB.setSubText("　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
-                    notCB.setSmallIcon(R.drawable.ico_dust4);
                     notCB.setLargeIcon(Bitmap.createBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ico_dust4)));
-                    notCB.setColor(Color.TRANSPARENT);
-                    notCB.setContentIntent(pendingIntent);
-                    notCB.setAutoCancel(true);
+                    image.setImageResource(R.drawable.alert1);
                     Notification notification = notCB.build();
-                    manager.notify(1,notification);
-                    vib.vibrate(new long[]{500,500},-1);
-                    image.setImageResource(R.drawable.alert);
-                    dialog.show();
+                    manager.notify(2,notification);vib();dialog.show();
                 }
             }
         } catch (JSONException e){
             Log.d(TAG,"showResult :",e);
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int permsRequestCode,
-                                           @NonNull String[] permissions,
-                                           @NonNull int[] grandResults) {
-        if ( permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
-            // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
-            boolean check_result = true;
-            // 모든 퍼미션을 허용했는지 체크합니다.
-            for (int result : grandResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    check_result = false;
-                    break;
-                }
-            }
-            if ( check_result ) {
-                //위치 값을 가져올 수 있음;
-            }
-            else {
-                // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
-                        || ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[1])) {
-                    Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
-                    finish();
-                }else {
-                    Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-    }
-    void checkRunTimePermission(){
-        //런타임 퍼미션 처리
-        // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
-        int hasFineLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
-                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
-            // 2. 이미 퍼미션을 가지고 있다면
-            // ( 안드로이드 6.0 이하 버전은 런타임 퍼미션이 필요없기 때문에 이미 허용된 걸로 인식합니다.)
-            // 3.  위치 값을 가져올 수 있음
-        } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
-            // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS[0])) {
-                // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
-                Toast.makeText(MainActivity.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
-                // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
-                        PERMISSIONS_REQUEST_CODE);
-            } else {
-                // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
-                // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
-                ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
-                        PERMISSIONS_REQUEST_CODE);
-            }
-        }
-    }
-    public String getCurrentAddress( double latitude, double longitude) {
-        //지오코더... GPS를 주소로 변환
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        List<Address> addresses;
-        try {
-            addresses = geocoder.getFromLocation(
-                    latitude,
-                    longitude,
-                    1);
-        } catch (IOException ioException) {
-            //네트워크 문제
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
-            return "지오코더 서비스 사용불가";
-        } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
-            return "잘못된 GPS 좌표";
-        }
-        if (addresses == null || addresses.size() == 0) {
-            Toast.makeText(this, "주소 미발견 / 허용시 App 종료 후 재실행 바랍니다", Toast.LENGTH_LONG).show();
-            return "주소 미발견";
-        }
-        Address address = addresses.get(0);
-        // return /*address.getAdminArea()+" "+address.getFeatureName()+" "+address.getThoroughfare();*/
-        // return address.getAddressLine(0);
-        return address.getSubLocality()+" "+address.getThoroughfare();
-    }
-    //여기부터는 GPS 활성화를 위한 메소드들
-    private void showDialogForLocationServiceSetting() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("위치 서비스 비활성화");
-        builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n"
-                + "위치 설정을 수정하실래요?");
-        builder.setCancelable(true);
-        builder.setPositiveButton("설정", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                Intent callGPSSettingIntent
-                        = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-        builder.create().show();
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case GPS_ENABLE_REQUEST_CODE:
-                //사용자가 GPS 활성 시켰는지 검사
-                if (checkLocationServicesStatus()) {
-                    if (checkLocationServicesStatus()) {
-                        Log.d("", "onActivityResult : GPS 활성화 되있음");
-                        checkRunTimePermission();
-                        return;
-                    }
-                }
-            break;
-        }
-    }
-    public boolean checkLocationServicesStatus() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
 }

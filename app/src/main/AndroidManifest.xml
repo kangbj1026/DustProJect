@@ -7,18 +7,19 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- 애플리케이션 이름, 버전, 아이콘 등 애플리케이션 전반적인 속성값에 관한 정보
+         건축물로 비유하자면 간판 -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="iRICO"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="미세리코"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DustActivity">
+        <activity android:name=".DustActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,12 +27,18 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:theme="@style/MainAppTheme"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
-            <!--android:theme="@style/FullScreenTheme"-->
         </activity>
-        <activity android:name=".SetActivity"></activity>
+        <activity
+            android:name=".SetActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+        <activity
+            android:name=".TestActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
